@@ -1,0 +1,5 @@
+{
+  "kimodo": {"sample_rate": 30, "min_frames": 60, "max_frames": 300},
+  "motionbricks": {"sample_rate": 30, "min_frames": 18, "max_frames": 58},
+  "ardy": {"sample_rate": 30, "min_frames": 1, "max_frames": null}
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "engines": {
+    "kimodo": {
+      "repository": "https://github.com/nv-tlabs/kimodo",
+      "commit": "e1c219c99b4b94ba48be1fb6a1cbc64ecee4c954",
+      "license_path": "engines/kimodo/LICENSE"
+    },
+    "ardy": {
+      "repository": "https://github.com/nv-tlabs/ardy",
+      "commit": "e706e27acc88070918308a10922b8f7174d0825e",
+      "license_path": "engines/ardy/LICENSE"
+    },
+    "motionbricks": {
+      "repository": "https://github.com/NVlabs/motionbricks",
+      "commit": "54fc563aeaaf819a753d72cc9fdc6713989cdd43",
+      "license_path": "engines/motionbricks/LICENSE"
+    }
+  }
+}

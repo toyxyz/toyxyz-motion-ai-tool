@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(MotionAIPythonHost LANGUAGES CXX)
+add_executable(python main.cpp utf8.manifest)
+target_compile_features(python PRIVATE cxx_std_17)
+target_compile_options(python PRIVATE /W4 /utf-8 /guard:cf)
+target_link_options(python PRIVATE /guard:cf)

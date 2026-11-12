@@ -1,0 +1,670 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "repo": "nvidia/Kimodo-SOMA-RP-v1.2",
+      "revision": "0e3c89024d896064b6851201373f7834784a386b",
+      "files": [
+        {
+          "name": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "name": "config.yaml",
+          "bytes": 675,
+          "sha256": "82f1e9f44d0df517d8ebde03d2e9396fd0bf372360714757901c1d97a2626599"
+        },
+        {
+          "name": "LICENSE",
+          "bytes": 10229,
+          "sha256": "11ccdcb47db87ac30b63765b5e5154403026c4fbb52c19919d99d912ec454e19"
+        },
+        {
+          "name": "model.safetensors",
+          "bytes": 1133177724,
+          "sha256": "fdcef624140a12c0a4840192ce0b75cafb4e73228a893da3864b4a990d3e919e"
+        },
+        {
+          "name": "README.md",
+          "bytes": 13003,
+          "sha256": "59bea6e02b9c6d25472f75312ee45831594856fe02108ae4a59f9a681ba13405"
+        },
+        {
+          "name": "stats/motion/body/mean.npy",
+          "bytes": 3040,
+          "sha256": "d42f35f8bb7ef52fdec66ae29c5cf590bd038f4f1aabd2d560d1d0f78663ed6f"
+        },
+        {
+          "name": "stats/motion/body/std.npy",
+          "bytes": 3040,
+          "sha256": "965bbad497726ef4e6c46b519827e2cbcb29f974214b25718d20a725b82279ed"
+        },
+        {
+          "name": "stats/motion/global_root/mean.npy",
+          "bytes": 168,
+          "sha256": "6c110980f9a0386e57a8c186f8eac7f55dc05bade92f44c4b391450ada598da1"
+        },
+        {
+          "name": "stats/motion/global_root/std.npy",
+          "bytes": 168,
+          "sha256": "fb15aeed7143f5f0754611f0acf5fa5f55d1f6492a49c23e490fc62f7bf11fb0"
+        },
+        {
+          "name": "stats/motion/local_root/mean.npy",
+          "bytes": 160,
+          "sha256": "4c36e8e33d6d51e6c8206ac796a52b7b3a4da7f0dc49ebdbb4f130178e3e9d31"
+        },
+        {
+          "name": "stats/motion/local_root/std.npy",
+          "bytes": 160,
+          "sha256": "5f57b41f51ced7832cffa81702f6e04d8694e16475c184baec6c8be0e98c8dba"
+        }
+      ]
+    },
+    {
+      "repo": "nvidia/ARDY-SOMA-RP-30FPS-Horizon60",
+      "revision": "244215084b22fcd29ab743017330e87411fe168a",
+      "files": [
+        {
+          "name": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "name": "config.yaml",
+          "bytes": 1588,
+          "sha256": "2141df95546d625125fcbe3075d9a500eb3c916c78443d09d2192859ef7fe6ef"
+        },
+        {
+          "name": "denoiser.safetensors",
+          "bytes": 626861352,
+          "sha256": "f548632f58e9ea1d2f717a1415cae3c1b86dadb521a2549e3e7ea60780bd8dc5"
+        },
+        {
+          "name": "LICENSE",
+          "bytes": 10229,
+          "sha256": "11ccdcb47db87ac30b63765b5e5154403026c4fbb52c19919d99d912ec454e19"
+        },
+        {
+          "name": "README.md",
+          "bytes": 13362,
+          "sha256": "a7c83d36ec2b2b02f895b56cc5a97263e724c160d4a8384e3b049bb5bbd01f91"
+        },
+        {
+          "name": "stats/motion/body/mean.npy",
+          "bytes": 3016,
+          "sha256": "35a91ec41060b3c4c53483ec4bf6305aeb55cc397c8d9c920cf4243de3a96514"
+        },
+        {
+          "name": "stats/motion/body/std.npy",
+          "bytes": 3016,
+          "sha256": "564adccf074c6619dd143542544f6c18b419f5184ee399a65e027acbd385b340"
+        },
+        {
+          "name": "stats/motion/global_root/mean.npy",
+          "bytes": 168,
+          "sha256": "d8147b6b200184e142d6c3366abfcfeb3e0b847dbac50671481d4739d9bff905"
+        },
+        {
+          "name": "stats/motion/global_root/std.npy",
+          "bytes": 168,
+          "sha256": "4929d73fbd4227498797ad652dc59d1eef572753858f3a86de7ccc4533984655"
+        },
+        {
+          "name": "stats/motion/local_root/mean.npy",
+          "bytes": 160,
+          "sha256": "1b09f79799bfb1aad8d82db7b557bd6189654f870acbb673c903b1b9d1198540"
+        },
+        {
+          "name": "stats/motion/local_root/std.npy",
+          "bytes": 160,
+          "sha256": "1fdb717f56fe4d9e9af507ea43d3fdb693c7cea70074479fcf937c435a67bb3d"
+        },
+        {
+          "name": "stats/motion/mean.npy",
+          "bytes": 3088,
+          "sha256": "802f79631ea88a1a920cf44725f5d0e9973a0c8d7adb5359b01bd7a5af57492d"
+        },
+        {
+          "name": "stats/motion/std.npy",
+          "bytes": 3088,
+          "sha256": "1a97818fea2a10e562de059013b081ecf7943d6815a36396f0d94f54ad26acb6"
+        },
+        {
+          "name": "stats/post_quantization/mean.npy",
+          "bytes": 640,
+          "sha256": "9c59d489bad7476b4474632e0ccaf4ed6722730020a68e32b325d838653c44d5"
+        },
+        {
+          "name": "stats/post_quantization/std.npy",
+          "bytes": 640,
+          "sha256": "f0a8c2f050ed3bbf1b0aed07ef2c961f948686697f6df0f94a56bda02c3fcca2"
+        },
+        {
+          "name": "stats/pre_quantization/mean.npy",
+          "bytes": 640,
+          "sha256": "35cad25149c823f56eb71c87afabb580686b7c8d6b61d6142de92f356645bf21"
+        },
+        {
+          "name": "stats/pre_quantization/std.npy",
+          "bytes": 640,
+          "sha256": "b8fc48c79c2f22046dd1f88447430d861affab46dd8b84e943487141d02fd5f5"
+        },
+        {
+          "name": "tokenizer.safetensors",
+          "bytes": 142169376,
+          "sha256": "68d0425ae89952123e3286cac4d29371c9c236af307f10923a3a79ff62958a11"
+        }
+      ]
+    },
+    {
+      "repo": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp",
+      "revision": "31474e395ada192e8ed1586db6be79fb3b70c9c0",
+      "files": [
+        {
+          "name": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "name": "adapter_config.json",
+          "bytes": 794,
+          "sha256": "1d3bbf14142865885ea8d0dbc1fb261adf4f5d14ddbdc939efb47c4913037813"
+        },
+        {
+          "name": "adapter_model.safetensors",
+          "bytes": 167829552,
+          "sha256": "de9c8736618a13173c6a1623cdef1b75e86c69317f1073ae82cd516ac36a632d"
+        },
+        {
+          "name": "attn_mask_utils.py",
+          "bytes": 11132,
+          "sha256": "86e463e1b82f27e3d3a8b9a1f76995dea3d8a7a41e5ece0431b27f084c143975"
+        },
+        {
+          "name": "config.json",
+          "bytes": 781,
+          "sha256": "416c570276487324e49dca7c3d79e212b948d9cb2282fa734b1fa8014de041d1"
+        },
+        {
+          "name": "modeling_llama_encoder.py",
+          "bytes": 2856,
+          "sha256": "05d27ca70e23ab92a793107fae1848589fd30046aaa6fea088e9fbe1f9073367"
+        },
+        {
+          "name": "README.md",
+          "bytes": 3315,
+          "sha256": "a5e6ec837f09b94f5acd585e67c83fae843ed80769ec3e565b3a6b4b81ca085b"
+        },
+        {
+          "name": "special_tokens_map.json",
+          "bytes": 335,
+          "sha256": "849070cae53bd45439e64ce5b1ddd650a66081b1bd47895c5a58939a05055579"
+        },
+        {
+          "name": "tokenizer.json",
+          "bytes": 9085671,
+          "sha256": "52b583ee1699c6ca4468f70885bd5f96dd1f7517292362a67581038afc04f4d8"
+        },
+        {
+          "name": "tokenizer_config.json",
+          "bytes": 51042,
+          "sha256": "0655c52e874137e4a455228155d982c4ea18419f461a10ceb57054995fec4223"
+        }
+      ]
+    },
+    {
+      "repo": "McGill-NLP/LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised",
+      "revision": "baa8ebf04a1c2500e61288e7dad65e8ae42601a7",
+      "files": [
+        {
+          "name": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "name": "adapter_config.json",
+          "bytes": 794,
+          "sha256": "2a1265e4a7829c16dad38a5175ec8ac41ea1e851654da5044ace2437615a58ba"
+        },
+        {
+          "name": "adapter_model.safetensors",
+          "bytes": 167829552,
+          "sha256": "53f8f94ebdf396667ba99dd96e78203edae27bbcdbd1cf5f12b611e1d916b225"
+        },
+        {
+          "name": "README.md",
+          "bytes": 62702,
+          "sha256": "e821992eb2485dcbab0f8903ae3819d806db6f587dfd179adafe31ef28fdda1d"
+        }
+      ]
+    },
+    {
+      "repo": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "files": [
+        {
+          "name": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "name": "config.json",
+          "bytes": 654,
+          "sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b"
+        },
+        {
+          "name": "generation_config.json",
+          "bytes": 187,
+          "sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c"
+        },
+        {
+          "name": "LICENSE",
+          "bytes": 7801,
+          "sha256": "475211637354ce4c14b9c3dacccbefbaba735fe1b0db97d6c4fd11cd1356819f"
+        },
+        {
+          "name": "model-00001-of-00004.safetensors",
+          "bytes": 4976698672,
+          "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c"
+        },
+        {
+          "name": "model-00002-of-00004.safetensors",
+          "bytes": 4999802720,
+          "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c"
+        },
+        {
+          "name": "model-00003-of-00004.safetensors",
+          "bytes": 4915916176,
+          "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921"
+        },
+        {
+          "name": "model-00004-of-00004.safetensors",
+          "bytes": 1168138808,
+          "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46"
+        },
+        {
+          "name": "model.safetensors.index.json",
+          "bytes": 23950,
+          "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b"
+        },
+        {
+          "name": "original/params.json",
+          "bytes": 211,
+          "sha256": "1d705272c15ef86cbfc636c9129bb457a8bdb94354f38d9553598a28d4ad7879"
+        },
+        {
+          "name": "original/tokenizer.model",
+          "bytes": 2183982,
+          "sha256": "82e9d31979e92ab929cd544440f129d9ecd797b69e327f80f17e1c50d5551b55"
+        },
+        {
+          "name": "README.md",
+          "bytes": 38854,
+          "sha256": "8ca60bb111f7a6ac8922daf085c050d3c30755a7a21ee52e53982ad82eae3b49"
+        },
+        {
+          "name": "special_tokens_map.json",
+          "bytes": 73,
+          "sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc"
+        },
+        {
+          "name": "tokenizer.json",
+          "bytes": 9085698,
+          "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7"
+        },
+        {
+          "name": "tokenizer_config.json",
+          "bytes": 50977,
+          "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb"
+        },
+        {
+          "name": "USE_POLICY.md",
+          "bytes": 4696,
+          "sha256": "003513f595a20b7d63c609dfe80879531acb9caef6376fcc109bf0827471f3d1"
+        }
+      ]
+    },
+    {
+      "repo": "voxta/Llama-3-8B-LLM2Vec-ARDY-INT8",
+      "revision": "96c7eb1cc9100cd3925662d1093926c00b64a698",
+      "files": [
+        {
+          "name": ".gitattributes",
+          "bytes": 1570,
+          "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+        },
+        {
+          "name": "chat_template.jinja",
+          "bytes": 393,
+          "sha256": "0a2f1ec693d3421ce83bea0b92db7f117ae3b76802fc2092924c17f206079704"
+        },
+        {
+          "name": "config.json",
+          "bytes": 1264,
+          "sha256": "c16f888f3c501c8aac3968a7810b7fee517705b3a4a599a1aa7ceb48d96ab1ff"
+        },
+        {
+          "name": "llm2vec_config.json",
+          "bytes": 81,
+          "sha256": "e09dec193e93d66334c9d233cc68f9125776a0e961d72703c54d9bf79e06da45"
+        },
+        {
+          "name": "model.safetensors",
+          "bytes": 8036109376,
+          "sha256": "92b33783cfcc0e9a414f0c8767da927c4d8271c5d0522556a4bb7839bc25a56b"
+        },
+        {
+          "name": "README.md",
+          "bytes": 4005,
+          "sha256": "1de857a370da6e6e1b27adbecfa6813619be54242a653b913c3576d4b2492ad9"
+        },
+        {
+          "name": "tokenizer.json",
+          "bytes": 17209961,
+          "sha256": "3c5cf44023714fb39b05e71e425f8d7b92805ff73f7988b083b8c87f0bf87393"
+        },
+        {
+          "name": "tokenizer_config.json",
+          "bytes": 363,
+          "sha256": "eda22c6e2b423ec92cf4c6ca95a2dc41237c031084c0b6b21d1b56b419158f4e"
+        }
+      ]
+    },
+    {
+      "repo": "voxta/Llama-3-8B-LLM2Vec-ARDY-NF4",
+      "revision": "f746923e9e7edb3b6fc54aae7dfd8cecb0f52a8f",
+      "files": [
+        {
+          "name": ".gitattributes",
+          "bytes": 1570,
+          "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930"
+        },
+        {
+          "name": "chat_template.jinja",
+          "bytes": 393,
+          "sha256": "0a2f1ec693d3421ce83bea0b92db7f117ae3b76802fc2092924c17f206079704"
+        },
+        {
+          "name": "config.json",
+          "bytes": 1264,
+          "sha256": "785f547dd803f93912c6f03b4a84612779901f9813d865da692498c6c38eccf4"
+        },
+        {
+          "name": "llm2vec_config.json",
+          "bytes": 81,
+          "sha256": "e09dec193e93d66334c9d233cc68f9125776a0e961d72703c54d9bf79e06da45"
+        },
+        {
+          "name": "model.safetensors",
+          "bytes": 4652064715,
+          "sha256": "ef7647bddfd96362537905305cf600f1cd687fee60db0774dd83f69d35da2c5d"
+        },
+        {
+          "name": "README.md",
+          "bytes": 3861,
+          "sha256": "c625fbae24e2bb5c95780ebf07a1ce052d5079992bffc31953aa5a53a6a56cc4"
+        },
+        {
+          "name": "tokenizer.json",
+          "bytes": 17209961,
+          "sha256": "3c5cf44023714fb39b05e71e425f8d7b92805ff73f7988b083b8c87f0bf87393"
+        },
+        {
+          "name": "tokenizer_config.json",
+          "bytes": 363,
+          "sha256": "eda22c6e2b423ec92cf4c6ca95a2dc41237c031084c0b6b21d1b56b419158f4e"
+        }
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "path": "engines/motionbricks/assets/motions/soma/avoidance/neutral_avoid_obstacle_bend_down_jog_ff_180_R_001__A544.bvh",
+      "bytes": 1577274,
+      "sha256": "4560ddfc0a216e07356426ab1af83b3e13785ed76312a6657503d7bb97585cb9",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/avoidance/neutral_avoid_obstacle_bend_down_jog_ff_180_R_001__A544.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/avoidance/neutral_avoid_obstacle_bend_down_walk_ff_180_R_001__A543.bvh",
+      "bytes": 2648450,
+      "sha256": "1b9ad236e4b846b22c1f3b258d45b064f073f272759e254c7dd3386d8e471012",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/avoidance/neutral_avoid_obstacle_bend_down_walk_ff_180_R_001__A543.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/jump/jump_over_obstacle_0_5m_R_001__A415.bvh",
+      "bytes": 1428924,
+      "sha256": "40f11025af983acf94c7028bdaee0743be7b9641e57545e45b67c0ef42e4413d",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/jump/jump_over_obstacle_0_5m_R_001__A415.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/jump/jump_over_obstacle_0_5m_R_002__A437.bvh",
+      "bytes": 1358894,
+      "sha256": "2ea888343a7adee808e96a792f704bbf7d058c4201c9476165eb3b61a62e9bc9",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/jump/jump_over_obstacle_0_5m_R_002__A437.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/jump/jump_over_obstacle_0_75m_R_102__A416.bvh",
+      "bytes": 1302608,
+      "sha256": "74fa726177530e7eac029e879d1747529d5eb8cc71ec3d5dcf10f3b732bdb5d4",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/jump/jump_over_obstacle_0_75m_R_102__A416.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/jump/jump_over_obstacle_0_75m_R_103__A416.bvh",
+      "bytes": 1341652,
+      "sha256": "2cf169575f4efc2687eb54f5d133e33286b1b853dc9afe6952bf9518338f032a",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/jump/jump_over_obstacle_0_75m_R_103__A416.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/jump/jump_over_obstacle_no_hand_0_75m_R_103__A416.bvh",
+      "bytes": 1331891,
+      "sha256": "363ac41c75e741dde9dd047dc9a5ecf9bb9c94105876506f620309f3c277882b",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/jump/jump_over_obstacle_no_hand_0_75m_R_103__A416.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_1d_linear/Neutral_walk_forward_002__A057.bvh",
+      "bytes": 2587387,
+      "sha256": "c0f4e63cec94c58196105a6d9f03a2ed1c94c8ff4fba15dd0a33cc512877904a",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_1d_linear/Neutral_walk_forward_002__A057.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_1d_linear/neutral_jog_ff_180_R_001__A534.bvh",
+      "bytes": 1568243,
+      "sha256": "321883221739a6bad5f786bdcc8edc5ff6c7d7a443d47b08d1dac03036840e2a",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_1d_linear/neutral_jog_ff_180_R_001__A534.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_1d_linear/neutral_walk_ff_180_R_002__A536_M.bvh",
+      "bytes": 3203080,
+      "sha256": "e7c98757c2c95f3cbbbaa2a63e329a937b8a7549fed0856c066164b1a5200f31",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_1d_linear/neutral_walk_ff_180_R_002__A536_M.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_1d_linear/run_loop_180_R_003__A326.bvh",
+      "bytes": 565877,
+      "sha256": "9151bb7ff149e62dc47d3beb555f890c72352f87980aedabbd4ce456a7f70976",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_1d_linear/run_loop_180_R_003__A326.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_1d_linear/run_loop_180_R_003__A331.bvh",
+      "bytes": 541594,
+      "sha256": "155bebc7049b794f1629fb385cdfe81e981e51acc3ee05d015716fceceae75e0",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_1d_linear/run_loop_180_R_003__A331.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_2d_directional/jog_ff_loop_270_R_very_fast_002__A455.bvh",
+      "bytes": 423599,
+      "sha256": "3c1f8b1657c053c8f7e2acb1dd015660a9e62cb2b3f28e231dead02a44b81054",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_2d_directional/jog_ff_loop_270_R_very_fast_002__A455.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_2d_directional/jog_ff_loop_270_R_very_fast_002__A455_M.bvh",
+      "bytes": 421808,
+      "sha256": "717b834da088e0190eff026997cec5c9872ebab7a27ba1dcd25a9b1f99cd4ec9",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_2d_directional/jog_ff_loop_270_R_very_fast_002__A455_M.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_2d_directional/jog_ff_loop_360_R_very_fast_001__A454.bvh",
+      "bytes": 516108,
+      "sha256": "bc6b95d3a731b56ea970cb41bb1e418384ef761e8c3995c3ff3dc4d6d44ff221",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_2d_directional/jog_ff_loop_360_R_very_fast_001__A454.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_2d_directional_crouch/crouch_ff_loop_180_R_001__A196.bvh",
+      "bytes": 1391071,
+      "sha256": "3f1d559dd6a89ba3bca10da79a9ba9fad42957869142c6b0571037493536d056",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_2d_directional_crouch/crouch_ff_loop_180_R_001__A196.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_2d_directional_crouch/crouch_ff_loop_270_R_002__A196.bvh",
+      "bytes": 1633871,
+      "sha256": "8f0a9d3f2458294d0644d164d9be1c8ee20f7a62949d28a417e32388b8a5c964",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_2d_directional_crouch/crouch_ff_loop_270_R_002__A196.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_2d_directional_crouch/crouch_ff_loop_270_R_002__A196_M.bvh",
+      "bytes": 1633704,
+      "sha256": "3818877d62da85e21f4e87eefb707deb41c432cf1acfa961240f5457f6141081",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_2d_directional_crouch/crouch_ff_loop_270_R_002__A196_M.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/bs_2d_directional_crouch/crouch_ff_loop_360_R_001__A196.bvh",
+      "bytes": 1833169,
+      "sha256": "a53411f725891508af99e5e3e4176b1b279d35d30ca0c59dc163b03224b017f7",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/bs_2d_directional_crouch/crouch_ff_loop_360_R_001__A196.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/idle/crouch_idle_001__A529.bvh",
+      "bytes": 1733948,
+      "sha256": "1c7ad4237ea40d54ca3658e441a46bfe614852d2154089efd667f9448858b660",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/idle/crouch_idle_001__A529.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/idle/idle_loop_001__A268.bvh",
+      "bytes": 2710513,
+      "sha256": "defaa54c9eaa060f4c091868b86e6840ba4201edb6dcb89f7c496e997892ff80",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/idle/idle_loop_001__A268.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/idle/legs_relax_002__A407.bvh",
+      "bytes": 2864654,
+      "sha256": "1fea14a5b427c1a434b20cd291e339dc86af7d7a95ce5773ba5bb6d331dd215e",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/idle/legs_relax_002__A407.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/idle/neutral_looking_around_R_001__A542.bvh",
+      "bytes": 2568791,
+      "sha256": "0793dc27fc145c14b3a4ccbc9f2b5c95124cba903403aba329884f54c0fcd0f3",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/idle/neutral_looking_around_R_001__A542.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/locomotion/idle/warm_up_neck_001__A359.bvh",
+      "bytes": 8017352,
+      "sha256": "cf436bcf201a993c15d284f2651f7be47836e57cfb6c8db5059820235da63929",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/locomotion/idle/warm_up_neck_001__A359.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/sitting/sit_on_chair_loop.bvh",
+      "bytes": 1304791,
+      "sha256": "7fb7c39c9c7a89a51a4c22979d43289855d50fdd6cee5c08063a993e066f24c5",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/sitting/sit_on_chair_loop.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/sitting/sit_on_chair_start_R_001__A047.bvh",
+      "bytes": 2248065,
+      "sha256": "c7833fb129622564e04b4cce6c3c4cec917aaab5792b2b52ac396fdb2868fa2c",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/sitting/sit_on_chair_start_R_001__A047.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/sitting/sit_on_chair_stop_R_001__A047.bvh",
+      "bytes": 1525805,
+      "sha256": "30c34de41c680dd531a0a3dec0c5438dd655f3d63b9897597fd7b2d072ec6572",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/sitting/sit_on_chair_stop_R_001__A047.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/angry_combat_quickstep_ff_idle_090_R_001__A365.bvh",
+      "bytes": 1895332,
+      "sha256": "7a55f4daa8b974b46663f58006d09cafa6656fc4a61fb27facd8f38438a94634",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/angry_combat_quickstep_ff_idle_090_R_001__A365.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/angry_combat_quickstep_ff_idle_090_R_001__A365_M.bvh",
+      "bytes": 1888343,
+      "sha256": "37910baa14baa2107bcf374b8c70ca8fb2afbe46358b9bbd5e84d04d5cd042ad",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/angry_combat_quickstep_ff_idle_090_R_001__A365_M.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/angry_combat_quickstep_ff_idle_360_R_001__A365.bvh",
+      "bytes": 2200303,
+      "sha256": "3f27edaf169be89a25ff417a13e0a5e353ea816e0b738623af1f242579b24076",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/angry_combat_quickstep_ff_idle_360_R_001__A365.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/angry_gun_walk_ff_loop_090_R_001__A393.bvh",
+      "bytes": 824397,
+      "sha256": "5a9667f4d45e1f28e17320ee535bd0697e302ba2e41b44a21cce2427c5c8b968",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/angry_gun_walk_ff_loop_090_R_001__A393.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/combat_quickstep_ff_idle_180_R_002__A365.bvh",
+      "bytes": 2241123,
+      "sha256": "5e175607b1aad62a779b03fbfff7e37320a763529147d6e5b5d3aae3ff7138fa",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/combat_quickstep_ff_idle_180_R_002__A365.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/dance_vouge_vogue_sequence_180_R_002__A316.bvh",
+      "bytes": 1769220,
+      "sha256": "3eb042573216e5b01e32fd8e3e7c8fbc5ea0adad0c79170ac66e63f28039a34d",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/dance_vouge_vogue_sequence_180_R_002__A316.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/dancecards1_AB_injured_L_leg_001__A005.bvh",
+      "bytes": 32144465,
+      "sha256": "78678529a78e1b1288df3491e0d5506162520a98b6f6c997d2b104c61fbba14b",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/dancecards1_AB_injured_L_leg_001__A005.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/injured_L_leg_grab_walk_ff_180_002__A549.bvh",
+      "bytes": 6077672,
+      "sha256": "581531db85a822a2dc3f52f3809783d76901cf168ac1b852ff284d01c5928470",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/injured_L_leg_grab_walk_ff_180_002__A549.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/injured_torso_grab_walk_ff_180_001__A549.bvh",
+      "bytes": 7128875,
+      "sha256": "835405d588c5122a8c7dda5c96535419e62373081eab7cc19cd552839fb178ea",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/injured_torso_grab_walk_ff_180_001__A549.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/skipping_R_002__A360.bvh",
+      "bytes": 2884518,
+      "sha256": "a20fcb9d92a27972dd31c23d6fac02bb1943608ec3c288ea0c7b7e82add9dada",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/skipping_R_002__A360.bvh"
+    },
+    {
+      "path": "engines/motionbricks/assets/motions/soma/variations/zombie_walk_180_R_003__A330.bvh",
+      "bytes": 4307610,
+      "sha256": "57871838f6dc3446fbfe3dc79f944ca970890ba72a171e038e3952a637d749e8",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/assets/motions/soma/variations/zombie_walk_180_R_003__A330.bvh"
+    },
+    {
+      "path": "engines/motionbricks/motionbricks/assets/human/soma_base_skel_minimal_no_root.usd",
+      "bytes": 2036435,
+      "sha256": "4ab93d78a0f1c06d3bcbedee5ceebb5d9d5b002fd0a88638e9399ed80b61871d",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/motionbricks/assets/human/soma_base_skel_minimal_no_root.usd"
+    },
+    {
+      "path": "engines/motionbricks/motionbricks/assets/onnx/soma/mmm_v6_soma_fp16.onnx",
+      "bytes": 380327058,
+      "sha256": "6c9f78e23decbda8e1cfd1b0cc96980ea4b24b3ca2c808d03b058f48f82fc9ef",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/motionbricks/assets/onnx/soma/mmm_v6_soma_fp16.onnx"
+    },
+    {
+      "path": "engines/motionbricks/motionbricks/assets/onnx/soma/mmm_v6_soma_fp32.onnx",
+      "bytes": 757864273,
+      "sha256": "856419dc72aeb14e591eebf4dd0ea05734a2506ddb00bcd39dd6dac2ad60f4fb",
+      "url": "https://media.githubusercontent.com/media/NVlabs/motionbricks/54fc563aeaaf819a753d72cc9fdc6713989cdd43/motionbricks/assets/onnx/soma/mmm_v6_soma_fp32.onnx"
+    }
+  ]
+}

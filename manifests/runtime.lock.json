@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "runtime_id": "windows-x64-cp312-cu128-20261107-r2",
+  "layout": "python_embeded/packages",
+  "publication": {
+    "status": "github-release",
+    "base_url": "https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1"
+  },
+  "archive_base": "MotionAI_Runtime_windows-x64-cp312-cu128-20261107-r2.7z",
+  "parts": [
+    {
+      "name": "MotionAI_Runtime_windows-x64-cp312-cu128-20261107-r2.7z.001",
+      "bytes": 1610612736,
+      "sha256": "f84cc032444d52cabe20cd8284b7d0957168c406fb9146f0e884ddcd247971ab"
+    },
+    {
+      "name": "MotionAI_Runtime_windows-x64-cp312-cu128-20261107-r2.7z.002",
+      "bytes": 1328702685,
+      "sha256": "297a09d5b198bb0ea184e28fa44f23ad9013d4d19a2549441a25eb651f8788a8"
+    }
+  ],
+  "environment_manifest_sha256": "5b2fcb161a001024b4cb05d63f0b0e3860e42f269414fc3f483f116b63251c0d",
+  "critical_files": [
+    {
+      "path": "python.exe",
+      "bytes": 28160,
+      "sha256": "ebfe81173b171f739e14ac313bb2a7b6262fdcd88d7a59ff6fdcc4db54fd304b"
+    },
+    {
+      "path": "python312.dll",
+      "bytes": 6945272,
+      "sha256": "9a0e3435aaa680d868150f87ab3e388ad2eebc22f87e036155c7b4eda8cd2120"
+    },
+    {
+      "path": "python312.zip",
+      "bytes": 3835482,
+      "sha256": "fb131c0ef7e35cc5250a74c8cd18744bf4115fb8163710711f3758d7df3d1f88"
+    },
+    {
+      "path": "python312._pth",
+      "bytes": 47,
+      "sha256": "e35bedff2b47d14ba027bbb9fc7bbdfcd9c892c31b3427e68c4be598f835db19"
+    },
+    {
+      "path": "environment.json",
+      "bytes": 13713,
+      "sha256": "92e402e5504176f3c1a9dc9e5f0c0d0fbcccd6d6986c4c4bd15bfc7f8ab4139e"
+    },
+    {
+      "path": "packages/ardy/motion_correction/_motion_correction.cp312-win_amd64.pyd",
+      "bytes": 359936,
+      "sha256": "c7a83aec850bd4663ba8049698f901d96be23eda53f2c5778d91b5f1f69c4b46"
+    },
+    {
+      "path": "packages/kimodo/motion_correction/_motion_correction.cp312-win_amd64.pyd",
+      "bytes": 359936,
+      "sha256": "8ace4ae88d9182cce95c1a1094aae018e0a1e9ddd5fdd49d07fac4548d7f473e"
+    }
+  ],
+  "extractor": {
+    "path": "bootstrap/tools/7zip/7za.exe",
+    "sha256": "7ddf0a3bc451e166679296be630d6f0573eb386159c04184761c43020c484291",
+    "version": "26.05"
+  }
+}
