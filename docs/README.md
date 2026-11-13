@@ -11,8 +11,10 @@ The companion uses its bundled CPython 3.12 environment and CUDA libraries. You 
 
 ## Install the companion and Blender add-on
 
-1. Open the [release page](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.1). Download **Source code (zip)** and **`toyxyz_motion_ai_tool-0.46.1-blender-addon.zip`**.
-2. Extract **Source code (zip)** to a writable folder such as `D:\MotionAI`. Use the folder that contains `install.cmd` and `runtime`. Keep the folder path free of semicolon characters.
+If the matching Windows companion is already installed, install only the Blender add-on ZIP and keep **External App Folder** pointed at that companion.
+
+1. From the [release page](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.1), download the **Windows companion ZIP** [`MotionAI_Portable-0.46.1-source.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/MotionAI_Portable-0.46.1-source.zip) and the **Blender add-on ZIP** [`toyxyz_motion_ai_tool-0.46.1-blender-addon.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/toyxyz_motion_ai_tool-0.46.1-blender-addon.zip).
+2. Extract the companion ZIP to a writable folder such as `D:\MotionAI`. Use the folder that contains `install.cmd` and `runtime`. Keep the folder path free of semicolon characters. GitHub's automatically generated **Source code (zip)** is optional.
 3. Open Command Prompt in that folder and run:
 
    ```bat
@@ -53,7 +55,7 @@ See the [Blender workflow](BLENDER_ADDON.md), [constraint controls](KEYFRAME_CON
 
 ## Update and troubleshoot
 
-- Close Blender and stop the companion before replacing their files. For a source ZIP installation, extract the next release to a separate folder and point Blender at that folder after installing the matching add-on ZIP. You can copy a compatible `python_embeded` folder and the existing `models` folder into the new source folder before running `install.cmd`. The installer verifies and reuses matching files. For a Git checkout, run `update.cmd`.
+- Close Blender and stop the companion before replacing their files. For a companion ZIP installation, extract the next release to a separate folder and point Blender at that folder after installing the matching add-on ZIP. You can copy a compatible `python_embeded` folder and the existing `models` folder into the new companion folder before running `install.cmd`. The installer verifies and reuses matching files. For a Git checkout, run `update.cmd`.
 - If the companion cannot start, check **External App Folder**, run `install.cmd -Verify`, and inspect `logs/toyxyz_motion_ai_tool_app.log`. `check.cmd` runs engine import and CUDA checks.
 - If model setup fails with an access error, verify your Hugging Face account's model access and retry with a read token.
 - If a runtime volume is reported corrupt, replace the named volume or partial download and retry. If GPU memory is tight, prepare a smaller encoder profile and select it in Blender.
