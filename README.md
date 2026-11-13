@@ -4,10 +4,15 @@ Generate and edit SOMA character motion in Blender using **Kimodo**, **ARDY**, a
 
 ## Install on Windows
 
-1. Open the [latest release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest). Download and extract **Source code (zip)**, then download the **Blender add-on ZIP**.
-2. Run `install.cmd` from the extracted source folder. It downloads the embedded Python runtime and model files. The default BF16 encoder may prompt for a Hugging Face read token with access to Meta Llama 3.
-3. In Blender 5.2 or later, open **Edit > Preferences > Add-ons > Install from Disk**, select the add-on ZIP, and enable **toyxyz_motion_ai_tool**.
-4. Set **External App Folder** in the add-on preferences to the folder containing `install.cmd`. Open **Motion AI** in the 3D View sidebar and click **Start**.
+If the matching Windows companion is already installed, download and install only the Blender add-on ZIP. Keep **External App Folder** pointed at that companion.
+
+For a fresh installation, download these two files from the [latest release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest).
+
+1. **Windows companion** — Extract [`MotionAI_Portable-0.46.1-source.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/MotionAI_Portable-0.46.1-source.zip) and run `install.cmd`. It downloads the embedded Python runtime and models. The default BF16 encoder may prompt for a Hugging Face read token with access to Meta Llama 3.
+2. **Blender add-on** — In Blender 5.2 or later, open **Edit > Preferences > Add-ons > Install from Disk**, select [`toyxyz_motion_ai_tool-0.46.1-blender-addon.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/toyxyz_motion_ai_tool-0.46.1-blender-addon.zip), and enable **toyxyz_motion_ai_tool**.
+3. Set **External App Folder** to the folder containing `install.cmd`. Open **Motion AI** in the 3D View sidebar and click **Start**.
+
+The companion ZIP contains the installer and app files. You can skip GitHub's automatically generated **Source code (zip)** and the separate runtime volumes when using `install.cmd`.
 
 A compatible NVIDIA GPU and driver are required for generation. Start with the [detailed guide](docs/README.md) for storage requirements, manual downloads, encoder profiles, and troubleshooting. See the [Blender workflow](docs/BLENDER_ADDON.md) and [distribution details](docs/DISTRIBUTION.md) for further reference.
 
