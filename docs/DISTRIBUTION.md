@@ -1,6 +1,6 @@
 # Source and Runtime Distribution
 
-The [GitHub release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.1) provides the source archive, Blender add-on ZIP and the split Windows runtime. See the [installation and workflow guide](README.md) for the end-user steps.
+The [GitHub release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.1) provides the Windows companion ZIP, Blender add-on ZIP and the split Windows runtime. See the [installation and workflow guide](README.md) for the end-user steps.
 
 ## Layout
 
@@ -35,7 +35,7 @@ Python and required packages travel together as one `python_embeded` folder. Lar
 
 ## End-user installation
 
-Clone this repository or extract **Source code (zip)** from the matching GitHub release.
+Extract the **Windows companion ZIP** [`MotionAI_Portable-0.46.1-source.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/MotionAI_Portable-0.46.1-source.zip) from the matching GitHub release. The archive contains the companion application, installer, and pinned manifests. A Git checkout or GitHub's automatically generated source archive can also supply those files.
 
 1. Run `install.cmd`. The default precision is BF16. Select another profile with `-Precision int8`, `-Precision nf4`, or `-Precision all`.
 2. A matching `python_embeded` folder is reused. Its first adoption verifies all immutable runtime files.
