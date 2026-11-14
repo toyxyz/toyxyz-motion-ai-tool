@@ -3,6 +3,7 @@
     [switch]$Verify,
     [switch]$PauseOnExit,
     [switch]$NoPause,
+    [string]$Models = '',
     [ValidateSet('bf16','int8','nf4','all')][string]$Precision = '',
     [string]$RuntimeBaseUrl = '',
     [string]$DownloadDirectory = ''
@@ -16,12 +17,87 @@ $LockPath = Join-Path $Root 'manifests\runtime.lock.json'
 $Utf8 = New-Object Text.UTF8Encoding($false)
 [Console]::OutputEncoding = $Utf8
 
+function Select-InstallOptions([string]$Title, [hashtable[]]$Options, [string[]]$Checked, [switch]$Single) {
+    Write-Host $Title
+    if ($Single) { Write-Host 'Up/Down: move   Space: select   Enter: confirm' }
+    else { Write-Host 'Up/Down: move   Space: check or uncheck   Enter: confirm' }
+    $Active = 0
+    $LineCount = $Options.Count + 1
+    while ($true) {
+        $Width = [Math]::Max(1, [Math]::Min([Console]::WindowWidth, [Console]::BufferWidth) - 1)
+        for ($Index = 0; $Index -lt $Options.Count; $Index++) {
+            $Option = $Options[$Index]
+            $Pointer = if ($Index -eq $Active) { '>' } else { ' ' }
+            $Mark = if ($Checked -contains $Option.Id) { 'x' } else { ' ' }
+            $Line = '{0} [{1}] {2,-12} {3}' -f $Pointer, $Mark, $Option.Label, $Option.Description
+            [Console]::WriteLine($Line.PadRight($Width).Substring(0, $Width))
+        }
+        $Status = if ($Checked.Count) { '' } else { 'Check at least one motion model to continue.' }
+        [Console]::WriteLine($Status.PadRight($Width).Substring(0, $Width))
+        switch ([Console]::ReadKey($true).Key) {
+            'UpArrow' { $Active = [Math]::Max(0, $Active - 1) }
+            'DownArrow' { $Active = [Math]::Min($Options.Count - 1, $Active + 1) }
+            'Spacebar' {
+                $Id = $Options[$Active].Id
+                if ($Single) { $Checked = @($Id) }
+                elseif ($Checked -contains $Id) { $Checked = @($Checked -ne $Id) }
+                else { $Checked += $Id }
+            }
+            'Enter' {
+                if ($Checked.Count) {
+                    return ($Options.Id | Where-Object { $Checked -contains $_ }) -join ','
+                }
+            }
+        }
+        [Console]::SetCursorPosition(0, [Math]::Max(0, [Console]::CursorTop - $LineCount))
+    }
+}
+
 function Get-Digest([string]$Path) {
     $Stream = [IO.File]::OpenRead($Path)
     $Hasher = [Security.Cryptography.SHA256]::Create()
     try { return [BitConverter]::ToString($Hasher.ComputeHash($Stream)).Replace('-','').ToLowerInvariant() }
     finally { $Hasher.Dispose(); $Stream.Dispose() }
 }
+
+function Test-GatedEncoderDownload([bool]$VerifyFiles) {
+    $Manifest = Get-Content -LiteralPath (Join-Path $Root 'manifests\models.lock.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+    $Model = $Manifest.models | Where-Object { $_.repo -eq 'meta-llama/Meta-Llama-3-8B-Instruct' }
+    $Snapshot = Join-Path $Root "models\huggingface\hub\models--meta-llama--Meta-Llama-3-8B-Instruct\snapshots\$($Model.revision)"
+    foreach ($File in $Model.files) {
+        $Path = Join-Path $Snapshot $File.name
+        if (-not [IO.File]::Exists($Path) -or (Get-Item -LiteralPath $Path).Length -ne $File.bytes) { return $true }
+        if ($VerifyFiles -and (Get-Digest $Path) -ne $File.sha256) { return $true }
+    }
+    return $false
+}
+
+function Invoke-ModelInstaller([string[]]$Arguments, [Security.SecureString]$Token) {
+    $Python = Join-Path $EnvironmentPath 'python.exe'
+    # Pass the token only through the child's stdin. Keep it out of the
+    # command line, environment, and PowerShell's output streams.
+    $Info = New-Object Diagnostics.ProcessStartInfo
+    $Info.FileName = $Python
+    $Info.Arguments = (($Arguments | ForEach-Object { '"' + $_ + '"' }) -join ' ') + ' --hf-token-stdin'
+    $Info.UseShellExecute = $false
+    $Info.RedirectStandardInput = $true
+    $Process = [Diagnostics.Process]::Start($Info)
+    try {
+        $Pointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($Token)
+        try {
+            for ($Index = 0; $Index -lt $Token.Length; $Index++) {
+                $Process.StandardInput.Write([char][Runtime.InteropServices.Marshal]::ReadInt16($Pointer, 2 * $Index))
+            }
+            $Process.StandardInput.WriteLine()
+        } finally {
+            [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($Pointer)
+            $Process.StandardInput.Close()
+        }
+        $Process.WaitForExit()
+        return $Process.ExitCode
+    } finally { $Process.Dispose() }
+}
+
 function Assert-WithinRoot([string]$Path) {
     $Resolved = [IO.Path]::GetFullPath($Path)
     if (-not $Resolved.StartsWith($Root + '\', [StringComparison]::OrdinalIgnoreCase)) { throw "Unsafe installation path: $Resolved" }
@@ -93,11 +169,34 @@ function Get-Volume([object]$Part, [string]$Directory, [string]$BaseUrl) {
     return $Target
 }
 
-$Guard = $null; $Client = $null
+$Guard = $null; $Client = $null; $Token = $null
 $Succeeded = $false
 try {
     $Lock = Get-Content -LiteralPath $LockPath -Raw -Encoding UTF8 | ConvertFrom-Json
     if ($Root.Contains(';')) { throw 'Installation paths cannot contain semicolons (;).' }
+    if ($Models -and $Models -notmatch '^(kimodo|ardy|motionbricks)(\s*,\s*(kimodo|ardy|motionbricks))*$') {
+        throw 'Use -Models with a comma-separated list of kimodo, ardy, or motionbricks.'
+    }
+    if ($Models) { $Models = (($Models.ToLowerInvariant() -split '\s*,\s*') | Select-Object -Unique) -join ',' }
+    $Interactive = -not [Console]::IsInputRedirected -and -not [Console]::IsOutputRedirected
+    if ($Interactive -and -not ($RuntimeOnly -or $Models -or $Precision -or $Verify -or $NoPause)) {
+        $ModelOptions = @(
+            @{ Id='kimodo'; Label='Kimodo'; Description='Expressive motion with detailed pose and path control.' },
+            @{ Id='ardy'; Label='ARDY'; Description='Fast text-to-motion for locomotion and long sequences.' },
+            @{ Id='motionbricks'; Label='MotionBricks'; Description='Smooth transitions guided by full-body pose targets.' }
+        )
+        $Models = Select-InstallOptions 'Choose the motion models to install:' $ModelOptions $ModelOptions.Id
+        if ($Models -ne 'motionbricks') {
+            $EncoderOptions = @(
+                @{ Id='nf4'; Label='NF4'; Description='4-bit. Lowest VRAM use and the default choice.' },
+                @{ Id='int8'; Label='INT8'; Description='8-bit. Moderate VRAM use.' },
+                @{ Id='bf16'; Label='BF16'; Description='Download requires Llama access approval and an HF Read token.' },
+                @{ Id='all'; Label='All'; Description='Includes BF16, which requires Llama approval and a Read token.' }
+            )
+            $Precision = Select-InstallOptions 'Choose the text encoder for Kimodo and ARDY:' $EncoderOptions 'nf4' -Single
+        }
+    }
+    if ($Models -and -not $RuntimeOnly) { Write-Host "Selected motion models: $Models" }
     if (-not $RuntimeOnly -and -not $Verify) {
         $Adapter = Get-Command nvidia-smi.exe -ErrorAction SilentlyContinue
         if (-not $Adapter -and (Test-Path "$env:SystemRoot\System32\nvidia-smi.exe")) {
@@ -107,12 +206,36 @@ try {
             Write-Warning 'No NVIDIA GPU was detected. Install a compatible NVIDIA driver before generating motion.'
         }
         $Drive = [IO.DriveInfo]::new([IO.Path]::GetPathRoot($Root))
-        if ($Drive.IsReady -and $Drive.AvailableFreeSpace -lt 24GB) {
+        if ($Models -ne 'motionbricks' -and $Drive.IsReady -and $Drive.AvailableFreeSpace -lt 24GB) {
             Write-Warning 'A fresh NF4 installation can need about 24 GB of free disk space. BF16 and installing every profile require more.'
         }
     }
     [IO.Directory]::CreateDirectory($Work) | Out-Null
     $Guard = [IO.File]::Open((Join-Path $Work 'install.lock'), [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
+    if (-not $RuntimeOnly -and $Models -ne 'motionbricks') {
+        if (-not $Precision) {
+            $SettingsPath = Join-Path $Root 'settings.json'
+            if ([IO.File]::Exists($SettingsPath)) {
+                $Precision = (Get-Content -LiteralPath $SettingsPath -Raw -Encoding UTF8 | ConvertFrom-Json).precision
+                if ($Precision -and $Precision -notin @('bf16','int8','nf4','all')) { throw 'Invalid encoder profile in settings.json.' }
+            }
+        }
+        if ($Precision -in @('bf16','all') -and (Test-GatedEncoderDownload $Verify)) {
+            if (-not $Interactive) { throw 'BF16 requires model access approval and a Hugging Face Read token. Run install.cmd in a Windows console.' }
+            Write-Host ''
+            Write-Host 'BF16 setup requires both model access approval and a Hugging Face Read token.'
+            Write-Host '1. Sign in to Hugging Face and open the Meta Llama model page.'
+            Write-Host '   https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct'
+            Write-Host '   Accept the license, submit the access request, and wait for approval.'
+            Write-Host '2. In the same approved account, open Access Tokens.'
+            Write-Host '   https://huggingface.co/settings/tokens'
+            Write-Host '   Choose New token, select Read, name it, and copy the generated token.'
+            Write-Host '3. Paste the token below. The installer uses it only for the download.'
+            Write-Host ''
+            $Token = Read-Host 'HF token (hidden, Enter to cancel)' -AsSecureString
+            if (-not $Token.Length) { throw 'Installation cancelled before downloading.' }
+        }
+    }
     $Valid = Test-Environment $EnvironmentPath
     if ($Valid) {
         $ReceiptOk = $false
@@ -184,10 +307,15 @@ try {
     }
     if (-not $RuntimeOnly) {
         $Arguments = @('-X','utf8','-u',(Join-Path $Root 'runtime\entry.py'),'install')
+        if ($Models) { $Arguments += @('--models',$Models) }
         if ($Precision) { $Arguments += @('--precision',$Precision) }
         if ($Verify) { $Arguments += '--verify' }
-        & (Join-Path $EnvironmentPath 'python.exe') @Arguments
-        if ($LASTEXITCODE -ne 0) { throw 'Model preparation failed.' }
+        if ($Token) { $Code = Invoke-ModelInstaller $Arguments $Token }
+        else {
+            & (Join-Path $EnvironmentPath 'python.exe') @Arguments
+            $Code = $LASTEXITCODE
+        }
+        if ($Code -ne 0) { throw 'Model preparation failed.' }
     }
     $Succeeded = $true
     exit 0
@@ -195,6 +323,7 @@ try {
     [Console]::Error.WriteLine($_.Exception.Message)
     exit 1
 } finally {
+    if ($Token) { $Token.Dispose() }
     if ($Client) { $Client.Dispose() }; if ($Guard) { $Guard.Dispose() }
     if ($PauseOnExit) {
         Write-Host ''

@@ -305,7 +305,7 @@ def _apply(context,obj,data):
     if abs(fps-data['scene_fps'])>.001:raise ValueError('Restore the original scene FPS before applying the result.')
     if len(data['root_positions'])<(1 if data['engine']=='ardy' else 2) or len(data['root_positions'])!=len(data['local_rotations']):raise ValueError('Invalid result frame count.')
     source_blocks=partition_blocks(data,fps)
-    from . import unified,continuity,correction_bounds,control_layers
+    from . import unified,continuity,correction_bounds,control_layers,ardy_transition
     with apply_transaction(context,obj) as animation:
         if rig.POSE_BASE not in obj and not any(not strip.action.get(REQUEST) for _,strip in strips(obj)):
             obj[rig.POSE_BASE]=json.dumps(rig.pose_state(obj))
@@ -315,6 +315,7 @@ def _apply(context,obj,data):
         actions=[]
         for block in source_blocks:
             action,slot=bake_action(obj,data,block,authored)
+            ardy_transition.remember(action,data,block)
             if data.get('moving_start') and block['start']==data['start']:action[MOVING_START]=True
             actions.append((block,action,slot))
         for _,strip in strips(obj):strip.select=False

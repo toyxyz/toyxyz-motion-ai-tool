@@ -3,7 +3,7 @@
 ## Requirements
 
 - Windows x64 with PowerShell and a CUDA 12.8-compatible NVIDIA driver.
-- Blender 5.2 or later. The add-on was tested on Blender 5.2.3 LTS.
+- Blender 5.2 or later. The timeline and block transitions were checked on Blender 5.2.3 LTS and 5.3.0.
 - Internet access for initial runtime, model and asset downloads.
 - Allow about 24 GB of free disk space for the default NF4 installation and about 35 GB for BF16. The split runtime download is about 2.94 GB, and the unpacked runtime is about 8.82 GB. Installing every encoder profile needs more space.
 
@@ -11,18 +11,22 @@ The companion uses its bundled CPython 3.12 environment and CUDA libraries. You 
 
 ## Install the companion and Blender add-on
 
-If the matching Windows companion is already installed, install only the Blender add-on ZIP and keep **External App Folder** pointed at that companion.
+Use the Blender add-on and Windows companion from the same release. If the matching companion is already installed, install the Blender add-on ZIP and keep **External App Folder** pointed at the companion.
 
-1. From the [release page](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.3), download **`MotionAI_Windows_Companion-0.46.3.zip`** and **`toyxyz_motion_ai_tool-0.46.3-blender-addon.zip`**.
+1. From the [0.46.4 release page](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.4), download **`MotionAI_Windows_Companion-0.46.4.zip`** and **`toyxyz_motion_ai_tool-0.46.4-blender-addon.zip`**.
 2. Extract the companion ZIP to a writable folder such as `D:\MotionAI`. Use the folder that contains `install.cmd` and `runtime`. Keep the folder path free of semicolon characters. GitHub's automatically generated **Source code (zip)** is optional.
-3. Double-click `install.cmd`. The installer downloads and verifies both runtime volumes, extracts Python, and downloads the pinned NF4 models. The console displays **Installation complete** or **Installation failed** and waits for a key. For scripted installs, use `install.cmd -NoPause` to exit immediately with the installer status code.
+3. Double-click `install.cmd`. Use **Up/Down** to move, **Space** to check or uncheck a model, and **Enter** to confirm. All three models are checked initially. The installer verifies the Python runtime and downloads the files for the selected models. The console displays **Installation complete** or **Installation failed** and waits for a key.
 
-   The default NF4 encoder is publicly downloadable. If you choose BF16, use a read token from an account with access to [Meta Llama 3 8B Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) at the hidden prompt.
+   If you select Kimodo or ARDY, a second menu lets you choose **NF4**, **INT8**, **BF16**, or **All**. NF4 is checked by default. Use **Space** to select a different profile and **Enter** to confirm. MotionBricks uses its own pose model. If BF16 or All needs to download restricted files, the console displays these steps before any downloads begin.
+
+   - Sign in, accept the license, and request access on the [Meta Llama 3 8B Instruct model page](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct). Wait for approval.
+   - In the same approved account, open [Access Tokens](https://huggingface.co/settings/tokens). Choose **New token**, select **Read**, name the token, and copy it.
+   - Paste the token into the hidden installer prompt. The installer uses it for the model download and does not save it. Press Enter at an empty prompt to cancel.
 4. In Blender, open **Edit > Preferences > Add-ons**. Choose **Install from Disk** from the top-right menu, select the Blender add-on ZIP, and enable **toyxyz_motion_ai_tool** if required.
 5. In the 3D View, press **N**, open **Motion AI**, and click **Start**. Blender uses the companion registered by `install.cmd`. Set **External App Folder** in the add-on preferences for a manually moved or alternate installation.
-6. When the panel shows **Model files ready**, add a SOMA actor and open the Motion Timeline. Select a prompt block, then click **Generate Motion**. For missing files, use the installation command shown in the sidebar.
+6. Add a SOMA actor and open the Motion Timeline. Choose an installed model for the active block. When the panel shows **Model files ready**, click **Generate Motion**. For missing files, use the installation command shown in the sidebar.
 
-## Choose an encoder profile
+## Install specific models or encoder profiles
 
 Run one of these commands in the companion folder to prepare the corresponding profile:
 
@@ -31,9 +35,13 @@ install.cmd -Precision bf16
 install.cmd -Precision int8
 install.cmd -Precision nf4
 install.cmd -Precision all
+install.cmd -Models kimodo,ardy -Precision nf4
+install.cmd -Models motionbricks -NoPause
 ```
 
-Choose the matching encoder precision in Blender's Motion AI settings. New installations and new settings default to NF4. Existing saved encoder selections can still be used. Kimodo and ARDY use the text encoder. MotionBricks generates between Full Body pose targets using its own model.
+Use `-Models` for a specific selection and `-NoPause` for scripts that need the installer exit code immediately. An explicit `-Precision` skips the model menu and applies to all models if `-Models` is omitted. Rerun the installer to add models. It reuses existing matching files.
+
+Choose the matching encoder precision in Blender's Motion AI settings. New installations and new settings default to NF4. Existing saved encoder selections can still be used.
 
 ## Use manually downloaded runtime volumes
 
@@ -44,6 +52,7 @@ Download both `.7z.001` and `.7z.002` volumes from the [v0.46.1 runtime release]
 - Create separate SOMA actors for independent timelines. Add ARDY or Kimodo prompt blocks, or use MotionBricks between Full Body pose keys.
 - Key the source actor in Blender. The Motion Timeline supports native pose keys, optional FK/IK controls, object constraints and path curves where supported by the selected model.
 - Select contiguous blocks to generate in sequence. A block can use adjacent generated clips as start and end references.
+- For ARDY blocks generated one at a time, enable **Motion Post-Processing** and generate from left to right to use [shared contact cleanup](ARDY_BLOCKS.md#shared-contact-cleanup). Both blocks must provide the original model samples saved by the 0.46.4 companion.
 - Add a **Control Layer** for editable corrections over generated motion. Layers can be muted, moved, trimmed or removed.
 - Select an actor and choose **Export FBX** to export the evaluated motion as one animation on its SOMA skeleton.
 

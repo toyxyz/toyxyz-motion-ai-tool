@@ -1,5 +1,5 @@
 bl_info={
-    'name':'toyxyz_motion_ai_tool','author':'toyxyz','version':(0,46,3),'blender':(5,2,0),
+    'name':'toyxyz_motion_ai_tool','author':'toyxyz','version':(0,46,4),'blender':(5,2,0),
     'location':'Motion Timeline / 3D View > Sidebar > Motion AI',
     'description':'External motion generation with native NLA tracks and user pose keys',
     'category':'Animation',
@@ -641,7 +641,9 @@ def panel(layout,context):
             ready=models[engine][precision]
             layout.label(text='Model files ready' if ready else 'Model files missing',icon='CHECKMARK' if ready else 'ERROR')
             if not ready:
-                command='install.cmd' if engine=='motionbricks' else 'install.cmd -Precision '+precision
+                command='install.cmd'
+                if 'selective_model_install' in state.get('capabilities',()):command+=' -Models '+engine
+                if engine!='motionbricks':command+=' -Precision '+precision
                 layout.label(text=command)
     elif state['connected']:
         layout.label(text='Model file status requires Companion 0.46.2',icon='INFO')
@@ -736,9 +738,15 @@ def timer():
         s=rig_store.settings(scene)
         rig_store.sync(scene)
         if not pose_edit.busy():
-            from . import correction_bounds
+            from . import correction_bounds,continuity,seam_blend
             for entry in rig_store.entries(scene):
-                if entry.rig:correction_bounds.sync(scene,entry.rig)
+                if entry.rig:
+                    correction_bounds.sync(scene,entry.rig)
+                    animation=entry.rig.animation_data
+                    if animation and not animation.use_tweak_mode and window and not window.screen.is_animation_playing:
+                        playback=continuity.playback(entry.rig)
+                        if playback and len(playback.strips)>1:
+                            seam_blend.sync(scene,entry.rig,playback)
         pointer=scene.as_pointer()
         markers=keyframes.markers(s.rig,force=True)
         keyframes.frames(s.rig,force=True,model_only=True)

@@ -44,7 +44,7 @@ class Application:
         with self.lock:
             return dict(app=APP,protocol=VERSION,instance=self.id,status='ready',engines=['kimodo','motionbricks','ardy'],
                         pid=os.getpid(),process_created=self.process_created,installation_root=str(ROOT),lifetime_job=self.lifetime_job,
-                        active_job=self.active,encoder_precision=self.encoder_precision,resident_motion=self.motion_state(),models_ready=self.model_readiness(),capabilities=['root_heading','root_height','delayed_curve_start','blender_process_lifetime','object_constraints','next_motion_context','atomic_cancel','model_readiness'],
+                        active_job=self.active,encoder_precision=self.encoder_precision,resident_motion=self.motion_state(),models_ready=self.model_readiness(),capabilities=['root_heading','root_height','delayed_curve_start','blender_process_lifetime','object_constraints','next_motion_context','atomic_cancel','model_readiness','selective_model_install','ardy_full_block_join'],
                         jobs=[self.public(j) for j in list(self.jobs.values())[-12:]])
     def public(self,job):
         with self.lock:
@@ -157,7 +157,8 @@ class Application:
         data=validate(data)
         engine=data['engine'];precision=data['precision'] if engine!='motionbricks' else 'fp32'
         if model_status(precision,engine=engine):
-            command='install.cmd' if engine=='motionbricks' else f'install.cmd -Precision {precision}'
+            command=f'install.cmd -Models {engine}'
+            if engine!='motionbricks':command+=f' -Precision {precision}'
             raise ValueError(f'The {engine} model files are missing. Run {command} in the companion folder.')
         with self.lock:
             cancelling=self.runner if self.active and self.jobs[self.active]['status']=='cancelled' else None

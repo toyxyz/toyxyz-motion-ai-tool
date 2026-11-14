@@ -44,6 +44,8 @@ def main():
     parser.add_argument('--port',type=int,default=8790)
     parser.add_argument('--engine',choices=['kimodo','ardy','motionbricks'],default='ardy')
     parser.add_argument('--precision',choices=['bf16','int8','nf4','all'],default=None)
+    parser.add_argument('--models',help='Comma-separated list of motion models to install')
+    parser.add_argument('--hf-token-stdin', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('--verify',action='store_true')
     parser.add_argument('--no-browser',action='store_true')
     parser.add_argument('--test',action='store_true')
@@ -79,8 +81,15 @@ def main():
         from verify_runtime import doctor
         doctor(args.engine)
     elif args.role=='install':
-        from installer import install
-        install(args.precision,args.verify)
+        from installer import install, parse_models
+        try:
+            models = parse_models(args.models)
+        except ValueError as exc:
+            parser.error(str(exc))
+        encoder_token = sys.stdin.readline().strip() if args.hf_token_stdin else None
+        if args.hf_token_stdin and not encoder_token:
+            parser.error('No Hugging Face Read token was supplied.')
+        install(args.precision,args.verify,models=models,encoder_token=encoder_token)
     else:
         from launcher import serve_ui
         serve_ui(open_browser=not args.no_browser)

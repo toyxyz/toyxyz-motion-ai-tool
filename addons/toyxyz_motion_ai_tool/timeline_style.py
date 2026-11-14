@@ -42,7 +42,9 @@ def shade(color,offset,alpha=None):
 
 def palette(context):
     theme=context.preferences.themes[0];d=theme.dopesheet_editor
-    return dict(back=rgba(d.space.back),grid=rgba(d.grid),text=rgba(d.space.text),text_hi=rgba(d.space.header_text_hi),
+    # Blender 5.3 removed the separate header text colors.
+    highlighted_text=getattr(d.space,'header_text_hi',d.space.text_hi)
+    return dict(back=rgba(d.space.back),grid=rgba(d.grid),text=rgba(d.space.text),text_hi=rgba(highlighted_text),
                 ruler=rgba(theme.regions.scrubbing.back),ruler_text=rgba(theme.regions.scrubbing.text),
                 channels=rgba(theme.regions.channels.back),channel_text=rgba(theme.regions.channels.text),
                 playhead=rgba(theme.common.anim.playhead),preview=rgba(theme.common.anim.preview_range),

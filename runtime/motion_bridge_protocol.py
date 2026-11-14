@@ -1,4 +1,6 @@
 """Versioned, bounded JSON protocol shared with the Blender-facing local app."""
+import base64
+import binascii
 import json
 import math
 from pathlib import Path
@@ -135,9 +137,48 @@ def validate(data):
         value=data.get(key,2)
         if not isinstance(value,(int,float)) or not math.isfinite(value) or not 0<=value<=20:raise ValueError('Guidance weights must be between 0 and 20.')
     data=dict(data,blocks=blocks,poses=sorted(poses,key=lambda p:p['frame']),steps=steps,seed=seed,fps=float(fps))
+    validate_ardy_join(data)
     validate_next_motion(data)
     if engine=='motionbricks':motionbricks_segments(data)
     return data
+
+
+def decode_ardy_block(raw,count):
+    import numpy as np
+
+    columns=277
+    if not isinstance(raw,str) or len(raw)!=4*((4*columns*count+2)//3):
+        raise ValueError('Invalid ARDY transition samples.')
+    try:
+        values=np.frombuffer(base64.b64decode(raw,validate=True),dtype='<f4')
+    except binascii.Error as exc:
+        raise ValueError('Invalid ARDY transition samples.') from exc
+    if values.size!=count*columns:
+        raise ValueError('Invalid ARDY transition samples.')
+    return values.reshape(count,columns)
+
+
+def validate_ardy_join(data):
+    join=data.get('ardy_join')
+    if join is None:return
+    import numpy as np
+
+    history=data.get('previous_motion_context')
+    if (data['engine']!='ardy' or not data.get('postprocess',True) or not history
+        or history.get('engine')!='ardy' or not isinstance(join,dict)
+        or type(join.get('count')) is not int or join['count']<2
+        or not isinstance(join.get('id'),str) or not 1<=len(join['id'])<=200):
+        raise ValueError('Invalid ARDY transition reference.')
+    values=decode_ardy_block(join.get('raw'),join['count'])
+    motion=join.get('corrected_start')
+    if (not np.isfinite(values).all() or abs(values[:,270:273]).max()>1000
+        or not isinstance(motion,dict) or not finite_array(motion.get('local'),(2,30,3,3))
+        or not finite_array(motion.get('root'),(2,3))
+        or any(abs(value)>1000 for point in motion['root'] for value in point)):
+        raise ValueError('Invalid ARDY transition samples.')
+    contacts=values[:,273:]
+    if not ((contacts==0)|(contacts==1)).all():
+        raise ValueError('Invalid ARDY contact labels.')
 
 
 def validate_next_motion(data):

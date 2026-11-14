@@ -335,7 +335,8 @@ def execute(request,output):
                   scene_fps=data['fps'],elapsed_seconds=time.monotonic()-started,
                   worker_pid=os.getpid(),model_load_count=_loads,model_reused=reused)
     progress(.99,'Writing generated motion',force=True);atomic_json(output,result)
-    print(json.dumps({k:v for k,v in result.items() if k not in ('local_rotations','root_positions','joint_names','next_motion_pose')}),flush=True)
+    motion_fields={'local_rotations','root_positions','joint_names','next_motion_pose','ardy_blocks','ardy_join'}
+    print(json.dumps({k:v for k,v in result.items() if k not in motion_fields}),flush=True)
 
 
 def serve(engine,mailbox):

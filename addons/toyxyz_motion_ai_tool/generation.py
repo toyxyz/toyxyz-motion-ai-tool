@@ -28,6 +28,12 @@ def submit(context,group,*,include_following=True):
     from . import request_data
     s=rig_store.settings(context.scene)
     data=request_data(context,group['engine'],group['blocks'],include_following=include_following)
+    if data['engine']=='ardy' and data['postprocess'] and 'ardy_full_block_join' in client.state.get('capabilities',[]):
+        from . import ardy_transition,control_layers
+        with control_layers.without_layers(context,s.rig,preserve_pose=True):
+            join=ardy_transition.payload(context,s.rig,data['blocks'],data['poses'],data.get('previous_motion_context'))
+        if join:
+            data['ardy_join']=join
     if data.get('next_motion_context') and 'next_motion_context' not in client.state.get('capabilities',[]):
         raise ValueError('Restart the companion app to generate into the following motion.')
     if any(p.get('object_goal') for p in data['poses']) and 'object_constraints' not in client.state.get('capabilities',[]):

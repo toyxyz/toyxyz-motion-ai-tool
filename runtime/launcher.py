@@ -55,7 +55,8 @@ class Manager:
         with self.lock:
             active=[p for p in self.children if p.poll() is None and 'motionbricks' not in p.args]
             if active or (self.thread and self.thread.is_alive()):raise RuntimeError('Stop the running demos first.')
-            if model_status(precision):raise RuntimeError('The selected model is missing. Run install.cmd -Precision '+precision+'.')
+            if model_status(precision,engines=engines):
+                raise RuntimeError(f'Model files are missing. Run install.cmd -Models {",".join(engines)} -Precision {precision}.')
             self.cancel.clear();self.state=dict(state='starting',message='Preparing the shared text encoder.',config=dict(precision=precision,engines=engines),demos={})
             (ROOT/'settings.json').write_text(json.dumps(self.state['config'],indent=2),encoding='utf-8')
             self.thread=threading.Thread(target=self._start,args=(precision,engines),daemon=True);self.thread.start()
@@ -111,6 +112,8 @@ class Manager:
         self._cleanup();self.state.update(state='idle',message='All owned demos stopped.',demos={})
     def motionbricks(self):
         if any(p.poll() is None and 'motionbricks' in p.args for p in self.children):raise RuntimeError('MotionBricks is already running.')
+        if model_status('fp32',engine='motionbricks'):
+            raise RuntimeError('MotionBricks model files are missing. Run install.cmd -Models motionbricks.')
         self.spawn('motionbricks','motionbricks')
 
 def serve_ui(open_browser=True):

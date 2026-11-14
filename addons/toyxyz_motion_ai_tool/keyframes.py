@@ -36,11 +36,11 @@ def curves(obj,include_modes=False,*,model_only=False):
     return [fc for fc in found if fc.data_path in paths and not fc.mute and fc.is_valid and (fc.keyframe_points or fc.sampled_points)]
 
 
-def frames(obj,force=False,*,model_only=False):
+def frames(obj,force=False,*,model_only=False,include_modes=False):
     if obj is None:return ()
-    key=(obj.as_pointer(),model_only);now=time.monotonic();cached=_cache.get(key)
+    key=(obj.as_pointer(),model_only,include_modes);now=time.monotonic();cached=_cache.get(key)
     if not force and cached and now-cached[0]<.15:return cached[1]
-    values=tuple(sorted({round(float(point.co.x),5) for fc in curves(obj,model_only=model_only) for point in fc.keyframe_points}))
+    values=tuple(sorted({round(float(point.co.x),5) for fc in curves(obj,include_modes=include_modes,model_only=model_only) for point in fc.keyframe_points}))
     if not model_only:pose_constraints.sync(obj,force=force)
     _cache[key]=(now,values)
     return values

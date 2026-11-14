@@ -1,4 +1,4 @@
-# ARDY blocks (v0.21.0)
+# ARDY Blocks
 
 Choose **ARDY** as a motion block's **Model**, enter a prompt and set its length by dragging its timeline edges. Select one or more touching enabled blocks and click **Generate Motion**. Generation uses the external embedded-Python app, then automatically applies native NLA strips on the existing SOMA rig. User correction Actions remain separate. There is no live Start/Stop recording session in this implementation.
 
@@ -20,6 +20,17 @@ The model is trained with windows of up to 10 seconds. Each step uses at most **
 - BF16/INT8/NF4 use the existing shared text encoder service. One resident motion worker is kept until another motion model is selected for generation, Release GPU is clicked, or a worker fails/is cancelled. Switching motion engines keeps the compatible shared encoder.
 
 ARDY produces a 30-joint body representation, expanded with the official SOMA conversion to the addon’s 77 joints. It does not independently author fine finger motion.
+
+## Shared contact cleanup
+
+With the 0.46.4 add-on and companion, enable **Motion Post-Processing**, generate an ARDY block, then generate the touching ARDY block to its right. If ARDY predicts that the same foot is in contact across the boundary, its native post-processing uses the full sequence of original model samples from the two blocks. The existing transition supplies the swing-leg animation away from predicted contacts. The result is stored in the **Motion AI · Block Transitions** NLA track above the source Actions.
+
+- The previous block can change during playback. Its generated Action remains available underneath the transition track. Mute that track in the NLA Editor to review the underlying clips.
+- When a following generation creates another eligible pair, both native solves use complete input blocks. Their playback ranges meet at the midpoint of the shared block and ease back to the generated motion at that handoff.
+- Shared cleanup uses blocks with unchanged strip timing and boundaries aligned to the model's 30 Hz samples. Authored pose keys, object constraints, path curves, or a correction boundary layer can cause Blender to use its ordinary transition behavior to protect the authored motion.
+- To supply full-block samples for an older scene, regenerate the preceding block with 0.46.4 before generating its neighbor. Existing short transition results can still play in saved projects.
+
+Selecting multiple touching ARDY blocks in one **Generate Motion** command produces one continuous model result. The worker carries its generated history across prompts and applies native post-processing to the sequence.
 
 ## Validation
 

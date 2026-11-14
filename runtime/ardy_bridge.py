@@ -1,5 +1,49 @@
 """Bounded-window ARDY generation for finite Blender prompt blocks."""
+import base64
 import math
+
+
+def motion_samples(local, root, contacts):
+    import torch
+    values=torch.cat((local[0].reshape(-1,270),root[0],contacts[0]),dim=1)
+    return base64.b64encode(values.cpu().numpy().astype('<f4',copy=False).tobytes()).decode('ascii')
+
+
+def native_join(raw, corrected, previous, skeleton, device):
+    import torch
+    from ardy.constraints import FullBodyConstraintSet
+    from ardy.postprocess import post_process_motion
+    from motion_bridge_protocol import decode_ardy_block
+
+    left_count=previous['count']
+    values=torch.from_numpy(decode_ardy_block(previous['raw'],left_count).copy()).to(device)
+    previous_raw=dict(local=values[:,:270].reshape(-1,30,3,3),root=values[:,270:273],contacts=values[:,273:])
+
+    def pairs(field):
+        return torch.cat((previous_raw[field][None],raw[field]),dim=1)
+
+    local,root,contacts = (pairs(field) for field in ('local','root','contacts'))
+    count=root.shape[1]
+    # Only the model's own labels determine whether contact crosses this join.
+    feet = contacts.reshape(1,count,2,2).amax(dim=-1) > .5
+    if not bool((feet[0,left_count-1] & feet[0,left_count]).any()):
+        return None
+    # Keep one unconstrained sample per side of the boundary for the native solve.
+    anchors_left=min(2,left_count-1)
+    anchors_right=min(2,count-left_count-1)
+    edges = torch.tensor([*range(anchors_left),*range(count-anchors_right,count)])
+    def reference(field):
+        left = torch.as_tensor(previous['corrected_start'][field][:anchors_left],device=device,dtype=torch.float32)
+        return torch.cat((left[None],corrected[field][:,-anchors_right:]),dim=1)
+    rotation,position,_ = skeleton.fk(reference('local'),reference('root'))
+    anchors = FullBodyConstraintSet(skeleton,edges,position[0],rotation[0])
+    output = post_process_motion(local,root,contacts,skeleton,[anchors])
+    output = skeleton.output_to_SOMASkeleton77(output)
+    local,root = output['local_rot_mats'][0],output['root_positions'][0]
+    if not bool(torch.isfinite(local).all() & torch.isfinite(root).all()):
+        return None
+    return dict(previous=previous['id'],left_count=left_count,local_rotations=local.cpu().tolist(),
+                root_positions=root.cpu().tolist(),contacts=contacts[0].cpu().tolist())
 
 
 def generate(data,progress,state):
@@ -21,6 +65,7 @@ def generate(data,progress,state):
     lengths=[round((b['end']-start)*rate/fps)-round((b['start']-start)*rate/fps) for b in data['blocks']]
     output_frames=sum(lengths);horizon=model.gen_horizon_len;patch=model.num_frames_per_token
     capacity=int(10*rate);max_history=((capacity-horizon)//patch)*patch
+    block_lengths=lengths.copy()
     following=next_pose_targets(data,output_frames)
     lengths[-1]+=len(following)
     total=sum(lengths)
@@ -153,6 +198,24 @@ def generate(data,progress,state):
                     history=history[:,-max_history:];cursor+=take;remaining-=take
             output=model.motion_rep.inverse(torch.cat(chunks,dim=1).to('cuda'),is_normalized=True)
             postprocess=data.get('postprocess',True)
+            raw_blocks={}
+            raw_head=None
+            join_input=data.get('ardy_join')
+            if postprocess:
+                raw={field:output[key] for field,key in (
+                    ('local','local_rot_mats'),('root','root_positions'),('contacts','foot_contacts'))}
+                offset=0
+                for block,count in zip(data['blocks'],block_lengths):
+                    begin=offset
+                    offset+=count
+                    aligned=(abs((block['end']-start)*rate/fps-offset)<1e-4
+                             and abs((block['start']-start)*rate/fps-begin)<1e-4)
+                    if aligned and count>=2 and block.get('uid'):
+                        span=slice(begin,offset)
+                        raw_blocks[block['uid']]=dict(start=begin,count=count,raw=motion_samples(
+                            *(raw[field][:,span] for field in ('local','root','contacts'))))
+                if join_input and data['blocks'][0]['uid'] in raw_blocks:
+                    raw_head={field:value[:,:block_lengths[0]].clone() for field,value in raw.items()}
             targets=[];options={}
             if postprocess:
                 # Keep the inherited articulation and height. A matching predicted
@@ -173,6 +236,13 @@ def generate(data,progress,state):
                 if total==1:inputs=[torch.cat((value,value),dim=1) for value in inputs]
                 corrected=post_process_motion(*inputs,model.skeleton,targets,**options)
                 output.update({key:value[:,:total] for key,value in corrected.items()})
+            correction={field:output[key] for field,key in (
+                ('local','local_rot_mats'),('root','root_positions'),('contacts','foot_contacts'))}
+            blocks={uid:dict(raw=value['raw'],count=value['count'],corrected_start={
+                field:correction[field][0,value['start']:value['start']+2].cpu().tolist()
+                for field in ('local','root')}) for uid,value in raw_blocks.items()}
+            head={field:value[:,:block_lengths[0]] for field,value in correction.items()}
+            join = native_join(raw_head,head,join_input,model.skeleton,output['root_positions'].device) if raw_head else None
             output=model.skeleton.output_to_SOMASkeleton77(output)
     finally:model._generate_window=original
     local=output['local_rot_mats'][0].cpu().numpy();root=output['root_positions'][0].cpu().numpy()
@@ -186,5 +256,6 @@ def generate(data,progress,state):
         source='real ARDY-SOMA-RP-30FPS-Horizon60',progress_work_completed=completed,progress_work_total=work,
         autoregressive_windows=window,generation_horizon_frames=horizon,history_limit_frames=max_history,history_frames_per_window=history_counts,
         previous_motion_context_frames=previous['frame_count'] if previous else 0,moving_start=moving_start,
+        ardy_blocks=blocks,ardy_join=join,
         root_path_errors=errors,root_height_errors=height_errors(data,root),
         encoder_instance=client.identity['instance_id'],encoder_load_count=client.identity['model_load_count'])

@@ -2,19 +2,23 @@
 
 Separate [FK and IK controls](SPLIT_CONTROL_RIG.md) support automatic pose matching. Select an actor and click **Add Control Rig** below the **SOMA Rigs** list.
 
-**Version 0.40.0 — native SOMA bones:** removed the added FK/IK control rig, poles, widgets and synchronization. Actors use their original 77 SOMA bones and preview mesh. Native keys, motion timelines and NLA corrections remain. Old controller animation is not converted. Restart Blender. [Details](CONTROL_RIG_REMOVAL.md).
+Actors can be animated with their native SOMA bones or with the optional FK/IK controls.
 
 **Clear Motion**, below Generate Motion, removes generated results for selected blocks while keeping their native user pose keys, block settings and prompts. It supports multiple selections, native Undo/Redo and saved scenes. See [clearing generated motion](CLEAR_MOTION.md).
 
 The top app control switches from **Start** to **Stop** while the companion is running and returns to **Start** after shutdown. The small **chain icon** beside it reconnects without launching another process. The separate bottom Stop App button has been removed; **Release GPU** remains available. Restart Blender to load the updated controls.
 
-Requires Blender 5.2 or later; tested with Blender 5.2.3 LTS. The addon and companion application use the same name. All UI and repository-facing documentation is in English.
+Requires Blender 5.2 or later. The timeline and block transitions were checked with Blender 5.2.3 LTS and 5.3.0.
 
 **MotionBricks v0.16.2 correction:** canonical SOMA rotation deltas now convert to/from the native joint frames of MotionBricks' official USD skeleton. Earlier bridge versions matched endpoints but fed incompatible rotation features to the model, causing severe intermediate joint motion. See [joint-frame diagnosis and replay evidence](MOTIONBRICKS_JOINT_FRAME_FIX.md). Affected existing clips must be regenerated; user pose keys are preserved.
 
 ## Workflow
 
 New SOMA actors start with an **ARDY** block. **Add Block** inherits the active block's model when a block is already active.
+
+### Block Transitions
+
+Generate touching ARDY blocks one at a time with **Motion Post-Processing** enabled to use shared contact cleanup when ARDY predicts a foot contact across the join. Use the matching 0.46.4 companion and generate the preceding block with that version first. Blender stores the result in **Motion AI · Block Transitions** in the NLA Editor. See [ARDY transition behavior and eligibility](ARDY_BLOCKS.md#shared-contact-cleanup).
 
 ### Control Layers
 

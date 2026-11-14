@@ -35,16 +35,16 @@ Python and required packages travel together as one `python_embeded` folder. Lar
 
 ## End-user installation
 
-Extract **`MotionAI_Windows_Companion-0.46.3.zip`** from the matching GitHub release. It contains the Blender companion application, installer, engine code and required assets for the Blender workflow. The GitHub source archive also contains upstream demos and developer tooling.
+Extract **`MotionAI_Windows_Companion-0.46.4.zip`** from the matching GitHub release. It contains the Blender companion application, installer, engine code and required assets for the Blender workflow. The GitHub source archive also contains upstream demos and developer tooling.
 
-1. Run `install.cmd`. New installations default to NF4. Select another profile with `-Precision bf16`, `-Precision int8`, or `-Precision all`.
+1. Run `install.cmd` and choose one or more motion models. New text-encoder installations default to NF4. For a scripted selection, pass `-Models kimodo,ardy` or any combination of `kimodo`, `ardy`, and `motionbricks`. Select another encoder profile with `-Precision bf16`, `-Precision int8`, or `-Precision all`.
 2. A matching `python_embeded` folder is reused. Its first adoption verifies all immutable runtime files.
 3. If missing, all pinned split volumes are downloaded and checked against their SHA-256 hashes. A `.partial` download resumes when the server supports HTTP Range.
 4. Extraction occurs inside `.install/stage_*`. The staged version, critical files, complete file manifest, Python isolation and UTF-8 native host are verified before activation.
 5. Replaced environments are retained under `.install/previous_*`. Active workers are not replaced. Failed staging folders are retained for inspection.
-6. Required model files and SOMA assets are fetched from pinned upstream locations. BF16 may require a Hugging Face account with model access. Entered tokens are not saved.
+6. Files for the selected models are fetched from pinned upstream locations. BF16 may require a Hugging Face account with model access. Enter a Read token at the hidden console prompt when authentication is required. The token is used for the download and is never written to disk.
 
-Use `install.cmd -RuntimeOnly` to prepare only the runtime. Use `install.cmd -Verify` for a full recheck, including model hashes.
+Use `install.cmd -RuntimeOnly` to prepare only the runtime. For a full recheck of a specific installation, use `install.cmd -Verify -Models <list>` and pass the matching encoder profile if needed.
 
 ## Manual and offline preparation
 
@@ -57,6 +57,8 @@ The default runtime URL is pinned in `manifests/runtime.lock.json`. For a mirror
 `update.cmd` runs `git pull --ff-only` when the checkout has Git and an origin, then prepares the runtime and models pinned by that source revision. With no Git checkout, runtime preparation still works. Local source conflicts are not discarded. Existing models, results, settings and caches are preserved.
 
 An unchanged runtime ID avoids another large download. An updated runtime is staged and verified before activation. Ordinary source edits do not require rebuilding the Python environment.
+
+Version 0.46.4 adds full-block ARDY transition data to the local companion protocol. Use the matching Blender add-on and restart both applications after updating. The release reuses the v0.46.1 runtime volumes.
 
 ## Developer packaging
 

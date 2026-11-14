@@ -162,6 +162,8 @@ def sort_tracks(scene):
         for value in values:append(obj,track,value)
     authoring_prefix(scene,obj)
     sync_start_frames(obj,current)
+    from . import seam_blend
+    seam_blend.sync(scene,obj,current,force=True)
 
 
 def sync_start_frames(obj,current):
