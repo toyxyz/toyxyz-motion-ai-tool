@@ -1,8 +1,10 @@
 # Control Motion AI from a local agent
 
+For installation, the standalone CLI download, and a complete generation example, see the [agent setup and workflow guide](AGENT_GUIDE.md).
+
 Open the working scene in Blender and click **Enable Agent Control** in the **Motion AI** sidebar. The bridge is active for that Blender window and scene. **Disable Agent Control**, switching scenes in that window or opening a `.blend` ends the session. Enable it again to work in a different scene.
 
-Run these commands from the MotionAI_Portable folder using the same Windows account as Blender.
+From a repository checkout, run these commands using the same Windows account as Blender. Use the companion's `python_embeded\python.exe` if you do not have system Python.
 
 ```powershell
 python build_tools/motion_ai_agent.py list
@@ -38,7 +40,7 @@ Block end frames are exclusive. `block.update` can also change the model, start,
 
 Call `generate` with `{"blocks":["BLOCK_ID"]}` to use those blocks, or call it with empty arguments to use the actor's timeline selection. It starts the same companion workflow as **Generate Motion**. Use `status` to read `job.status`, `job.busy`, `job.progress` and application errors. The job is complete when the generation result has been applied and `job.busy` is false. `cancel` cancels the current scene's job. The existing model limitations still apply. MotionBricks uses Full Body pose targets and treats the prompt as notes.
 
-Call `export.fbx` with `{"filepath":"actor.fbx"}` to save the selected actor's motion on the SOMA skeleton. Set `overwrite` to `true` when replacing an existing file. For long exports, increase the CLI reply timeout with `--timeout 120`.
+Call `export.fbx` with `{"filepath":"D:/MotionOutput/actor.fbx"}` to save the selected actor's motion on the SOMA skeleton. Use an absolute path in an existing folder. Set `overwrite` to `true` when replacing an existing file. For long exports, increase the CLI reply timeout with `--timeout 120`.
 
 If Blender picks up a command but the reply times out, the CLI prints its request ID. Within ten minutes, retry with `--request-id` and the same command and arguments in the same enabled session to recover the previous reply. Wait for the original CLI call to exit before retrying.
 

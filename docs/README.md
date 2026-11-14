@@ -86,7 +86,7 @@ Download both `.7z.001` and `.7z.002` volumes from the [Windows companion releas
 - Add a **Control Layer** for editable corrections over generated motion. Layers can be muted, moved, trimmed or removed.
 - Select an actor and choose **Export FBX** to export the evaluated motion as one animation on its SOMA skeleton.
 
-See the [Blender workflow](BLENDER_ADDON.md), [constraint controls](KEYFRAME_CONSTRAINT_TYPES.md), [path curves](KIMODO_PATH_CURVES.md), [ARDY blocks](ARDY_BLOCKS.md), and [local agent commands](AGENT_CONTROL.md).
+See the [Blender workflow](BLENDER_ADDON.md), [constraint controls](KEYFRAME_CONSTRAINT_TYPES.md), [path curves](KIMODO_PATH_CURVES.md), and [ARDY blocks](ARDY_BLOCKS.md). For Codex or another local AI agent, follow the [agent setup and workflow guide](AGENT_GUIDE.md) and the [command reference](AGENT_CONTROL.md).
 
 ## Update and troubleshoot
 

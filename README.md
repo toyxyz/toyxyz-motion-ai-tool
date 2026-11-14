@@ -16,6 +16,8 @@ The default **NF4** setup requires no Hugging Face token. Downloading the gated 
 
 A compatible NVIDIA GPU and driver are required for generation. See the [installation guide](docs/README.md) for storage, [port changes](docs/README.md#change-the-companion-port), and troubleshooting. See [VRAM and speed](docs/PERFORMANCE.md) for measurements by model and text encoder, and the [Blender workflow](docs/BLENDER_ADDON.md) for motion authoring and FBX export.
 
+Using Codex or another local AI agent? Share the [agent setup and workflow guide](docs/AGENT_GUIDE.md) for installation, scene control, motion generation, and FBX export.
+
 ## ARDY block transitions
 
 When generating touching ARDY blocks one at a time, **Motion Post-Processing** can use samples from both full blocks for ARDY's native contact cleanup. The add-on preserves the existing swing animation away from predicted contacts. Regenerate the preceding block with Windows Companion 0.46.4 to supply its original model samples. [Behavior and eligibility](docs/ARDY_BLOCKS.md#shared-contact-cleanup).
