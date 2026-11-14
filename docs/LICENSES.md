@@ -4,6 +4,10 @@ Built with Meta Llama 3.
 
 This guide covers Blender add-on 0.46.5 and Windows Companion 0.46.4. The [engine manifest](../manifests/engines.lock.json) records source revisions. The [model and asset manifest](../manifests/models.lock.json) records the installed files, revisions, and SHA-256 hashes. The linked license texts provide the terms for each component.
 
+## Toyxyz source code
+
+Toyxyz-authored source code, including the Blender add-on, Windows Companion, installer scripts, and build tools, is licensed under the [GNU General Public License, version 3](../LICENSE) or, at your option, any later version (`GPL-3.0-or-later`). Third-party code, models, data, and runtime dependencies retain the terms below.
+
 ## Motion models
 
 | Component | Engine source code | Model terms |
@@ -32,5 +36,3 @@ Public downloads still carry the stated license and use terms. The MIT labels on
 - **MotionBricks documentation and assets.** The upstream source license identifies **CC BY 4.0** for its documentation, skills, and assets. Follow the specific notices for ONNX weights, sample motions, and third-party assets. [MotionBricks license file](../engines/motionbricks/LICENSE) · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 - **SOMA preview.** The Blender preview uses the `skin_standard.npz` file included with Kimodo or ARDY in the Companion. Third-party body models and rigs bring their own terms. The preview asset and any imported rig or motion used in a project should be reviewed separately from the license for inference. [Preview asset provenance](SOMA_PREVIEW_MESH.md) · [SOMA-X project license and third-party notes](https://github.com/NVlabs/SOMA-X#license)
 - **Companion runtime.** The embedded Python environment keeps the Python and dependency license files. The packaged 7-Zip executable has its own notice. CUDA, cuDNN, and the installed TensorRT runtime packages have separate NVIDIA terms. [Distribution details](DISTRIBUTION.md#third-party-components) · [7-Zip notice](../bootstrap/tools/7zip/License.txt) · [TensorRT terms](https://docs.nvidia.com/deeplearning/tensorrt/latest/reference/sla.html)
-
-This document records third-party terms for the release. The repository has no separate project-wide license declaration for Toyxyz-authored code.

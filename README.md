@@ -28,5 +28,7 @@ When generating touching ARDY blocks one at a time, **Motion Post-Processing** c
 
 ## Licenses
 
+Toyxyz-authored source code in this repository, including the Blender add-on and Windows Companion, is licensed under the [GNU General Public License, version 3](LICENSE) or, at your option, any later version (`GPL-3.0-or-later`). Third-party components retain their own terms.
+
 See the [model and third-party licenses](docs/LICENSES.md) for Kimodo, ARDY, MotionBricks, the text encoders, and sample assets.
 

@@ -1,5 +1,7 @@
 # toyxyz_motion_ai_tool - Blender Addon
 
+The Toyxyz-authored add-on source code is licensed under the GNU General Public License, version 3 or, at your option, any later version (`GPL-3.0-or-later`). The installation ZIP includes the `LICENSE` text. [Project and license details](https://github.com/toyxyz/toyxyz-motion-ai-tool#licenses)
+
 **Join existing motion (0.44.2).** Select the block or contiguous blocks to generate. The first block uses the existing start continuity, and the last block targets the start of an immediately following generated clip. Kimodo uses **Transition Overlap** from the following Kimodo block, or from the selected Kimodo block when the following clip uses another model. ARDY and MotionBricks use up to four 30 FPS samples. The generated result applies to the selected blocks only. Restart Blender and the companion app after updating.
 
 **Version 0.40.0 — native SOMA bones:** removed the added FK/IK control rig, poles, widgets and synchronization. Actors use their original 77 SOMA bones and preview mesh. Native keys, motion timelines and NLA corrections remain. Old controller animation is not converted. Restart Blender. [Details](../../docs/CONTROL_RIG_REMOVAL.md).

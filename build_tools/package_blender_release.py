@@ -9,7 +9,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
 ADDON = 'addons/toyxyz_motion_ai_tool/'
-BOOT_FILES = {'install.cmd', 'check.cmd', 'toyxyz_motion_ai_tool.cmd', 'README.md'}
+BOOT_FILES = {'install.cmd', 'check.cmd', 'toyxyz_motion_ai_tool.cmd', 'README.md', 'LICENSE'}
 SHARED_ADDON_FILES = {ADDON + filename for filename in ('soma.json', 'model_limits.json', 'lifetime.py')}
 ENGINE_ROOTS = ('engines/ardy/ardy/', 'engines/kimodo/kimodo/', 'engines/motionbricks/motionbricks/')
 DENIED_PARTS = {'.git', '.codex', '.agents', '.vscode', '__pycache__', 'testdata', 'tests', 'examples'}
@@ -37,7 +37,11 @@ def main():
         version = '.'.join(part.decode() for part in match.groups())
         args.output.mkdir(parents=True, exist_ok=True)
         archives = (
-            (f'toyxyz_motion_ai_tool-{version}-blender-addon.zip', lambda n: n.startswith(ADDON), lambda n: n.removeprefix('addons/')),
+            (
+                f'toyxyz_motion_ai_tool-{version}-blender-addon.zip',
+                lambda n: n.startswith(ADDON) or n == 'LICENSE',
+                lambda n: 'toyxyz_motion_ai_tool/LICENSE' if n == 'LICENSE' else n.removeprefix('addons/'),
+            ),
             (f'MotionAI_Windows_Companion-{version}.zip', companion_file, lambda n: f'MotionAI_Windows_Companion-{version}/{n}'),
         )
         for filename, include, archive_name in archives:
