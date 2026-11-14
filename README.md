@@ -14,7 +14,7 @@ The companion ZIP contains the installer and app files. You can skip GitHub's au
 
 The default **NF4** setup requires no Hugging Face token. Downloading the gated **BF16** files requires Meta Llama model access and a Hugging Face **Read** token. [Token setup](docs/README.md#hugging-face-access-for-bf16)
 
-A compatible NVIDIA GPU and driver are required for generation. See the [installation guide](docs/README.md) for storage, [port changes](docs/README.md#change-the-companion-port), and troubleshooting. See the [Blender workflow](docs/BLENDER_ADDON.md) for motion authoring and FBX export.
+A compatible NVIDIA GPU and driver are required for generation. See the [installation guide](docs/README.md) for storage, [port changes](docs/README.md#change-the-companion-port), and troubleshooting. See [VRAM and speed](docs/PERFORMANCE.md) for measurements by model and text encoder, and the [Blender workflow](docs/BLENDER_ADDON.md) for motion authoring and FBX export.
 
 ## ARDY block transitions
 

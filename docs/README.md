@@ -9,6 +9,8 @@
 
 The companion uses its bundled CPython 3.12 environment and CUDA libraries. You can use the release without installing system Python, pip, a compiler or a separate CUDA Toolkit.
 
+See [VRAM and speed](PERFORMANCE.md) for measured GPU memory, first-run time and generation speed after loading for each model and text encoder profile.
+
 ## Install the companion and Blender add-on
 
 Blender add-on 0.46.5 works with Windows Companion 0.46.4. If Companion 0.46.4 is already installed, install the Blender add-on ZIP and leave **External App Folder** blank for automatic detection.

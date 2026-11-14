@@ -124,6 +124,8 @@ Version **0.14.1** fixes the fill becoming opaque after text labels were drawn. 
 
 ## Resident GPU models (v0.11.0)
 
+See [current measurements by model and encoder](PERFORMANCE.md) for VRAM, first-run loading, and warm generation times.
+
 Successful generation keeps the selected motion model in an app-owned resident GPU process. Repeated Kimodo jobs reuse one motion model and repeated MotionBricks jobs reuse one TensorRT engine, pose buffers and CUDA graph. The first job loads the model; later jobs reuse it. Selecting a different engine for the next generation stops the old motion process before starting the new one. The shared text encoder stays available across motion-engine changes.
 
 Changing BF16/INT8/NF4 replaces the active text encoder profile while retaining the resident Kimodo motion weights; the worker refreshes its encoder connection for each job. **Release GPU** stops the motion worker and all matching shared encoders from this portable installation, including a compatible service left by an earlier session. Process identity and executable/entry paths are checked before an adopted service is stopped. Services from other installations are not terminated. The next generation loads the required models again. Release is rejected while a generation is active; finish or cancel it first.
