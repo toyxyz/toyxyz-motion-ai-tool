@@ -94,4 +94,4 @@ See the [Blender workflow](BLENDER_ADDON.md), [constraint controls](KEYFRAME_CON
 - If the companion cannot start, check **External App Folder**, run `check.cmd` for runtime and CUDA checks, and inspect `logs/toyxyz_motion_ai_tool_app.log`. To check model files by SHA-256, rerun setup with the installed selection, for example `install.cmd -Verify -Models ardy -Precision nf4`.
 - If a runtime volume is reported corrupt, replace the named volume or partial download and retry. If GPU memory is tight, prepare a smaller encoder profile and select it in Blender.
 - The companion keeps prompts, pose constraints and generated outputs in `results/toyxyz_motion_ai_tool`. After stopping it, you can remove completed job folders you no longer need. Review `logs/` and diagnostic reports for local paths before sharing them.
-- Review [component licenses and model distribution](DISTRIBUTION.md#third-party-components) before redistributing the packages or downloaded assets.
+- Review the [model and third-party licenses](LICENSES.md) before redistributing the packages or downloaded assets.

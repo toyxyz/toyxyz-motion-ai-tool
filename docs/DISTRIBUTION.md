@@ -84,6 +84,8 @@ The original monolithic lab assemblers have been retired for this source checkou
 
 ## Third-party components
 
+See [Model and Third-Party Licenses](LICENSES.md) for the terms of the pinned motion models, text encoders, and sample assets.
+
 The engine source includes the licenses and notices listed in [the engine manifest](../manifests/engines.lock.json). The embedded runtime preserves its package license files and the Python Software Foundation license. CUDA and cuDNN components remain subject to their NVIDIA terms. See the [CUDA Toolkit agreement](https://docs.nvidia.com/cuda/archive/12.8.0/eula/index.html) and the [cuDNN agreement](https://docs.nvidia.com/deeplearning/cudnn/latest/reference/eula.html).
 
 The [model and asset manifest](../manifests/models.lock.json) lists the upstream downloads, revisions and checksums. Model weights and downloaded motion data use their respective upstream terms.

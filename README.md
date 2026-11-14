@@ -26,3 +26,7 @@ Using Codex or another local AI agent? Share the [agent setup and workflow guide
 
 When generating touching ARDY blocks one at a time, **Motion Post-Processing** can use samples from both full blocks for ARDY's native contact cleanup. The add-on preserves the existing swing animation away from predicted contacts. Regenerate the preceding block with Windows Companion 0.46.4 to supply its original model samples. [Behavior and eligibility](docs/ARDY_BLOCKS.md#shared-contact-cleanup).
 
+## Licenses
+
+See the [model and third-party licenses](docs/LICENSES.md) for Kimodo, ARDY, MotionBricks, the text encoders, and sample assets.
+
