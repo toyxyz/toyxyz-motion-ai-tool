@@ -26,6 +26,20 @@ Blender add-on 0.46.5 works with Windows Companion 0.46.4. If Companion 0.46.4 i
 5. In the 3D View, press **N**, open **Motion AI**, and click **Start**. With **External App Folder** blank, Blender uses the companion registered by `install.cmd`. Set the field for a manually moved or alternate installation. Clear a saved path to return to automatic detection.
 6. Add a SOMA actor and open the Motion Timeline. Choose an installed model for the active block. When the panel shows **Model files ready**, click **Generate Motion**. For missing files, use the installation command shown in the sidebar.
 
+## Change the companion port
+
+The default local port is **8790**. If it is already in use, choose a free port between **1024** and **65535**.
+
+1. If the companion is running, click **Stop** in the **Motion AI** panel and wait for **Start** to reappear.
+2. In Blender, open **Edit > Preferences > Add-ons**, expand **toyxyz_motion_ai_tool**, and change **Port**, for example to **8791**.
+3. Click **Start** in the **Motion AI** panel. Blender starts the companion and connects on the selected port.
+
+To start the companion manually, run this command from the companion folder. Enter the same port in Blender's add-on preferences.
+
+```bat
+toyxyz_motion_ai_tool.cmd --port 8791
+```
+
 ## Install specific models or encoder profiles
 
 Run one of these commands in the companion folder to prepare the corresponding profile:

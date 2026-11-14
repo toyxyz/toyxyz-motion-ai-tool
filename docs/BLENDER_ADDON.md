@@ -8,6 +8,8 @@ Actors can be animated with their native SOMA bones or with the optional FK/IK c
 
 The top app control switches from **Start** to **Stop** while the companion is running and returns to **Start** after shutdown. The small **chain icon** beside it reconnects without launching another process. The separate bottom Stop App button has been removed; **Release GPU** remains available. Restart Blender to load the updated controls.
 
+Use the add-on's **Port** preference to change the local connection port. See [changing the companion port](README.md#change-the-companion-port).
+
 Requires Blender 5.2 or later. The timeline and block transitions were checked with Blender 5.2.3 LTS and 5.3.0.
 
 **MotionBricks v0.16.2 correction:** canonical SOMA rotation deltas now convert to/from the native joint frames of MotionBricks' official USD skeleton. Earlier bridge versions matched endpoints but fed incompatible rotation features to the model, causing severe intermediate joint motion. See [joint-frame diagnosis and replay evidence](MOTIONBRICKS_JOINT_FRAME_FIX.md). Affected existing clips must be regenerated; user pose keys are preserved.
