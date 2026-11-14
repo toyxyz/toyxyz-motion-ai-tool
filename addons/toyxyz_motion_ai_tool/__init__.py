@@ -1,5 +1,5 @@
 bl_info={
-    'name':'toyxyz_motion_ai_tool','author':'toyxyz','version':(0,46,1),'blender':(5,2,0),
+    'name':'toyxyz_motion_ai_tool','author':'toyxyz','version':(0,46,2),'blender':(5,2,0),
     'location':'Motion Timeline / 3D View > Sidebar > Motion AI',
     'description':'External motion generation with native NLA tracks and user pose keys',
     'category':'Animation',
@@ -32,7 +32,13 @@ def runtime_default():
         try:return json.loads(config.read_text(encoding='utf-8'))['root']
         except Exception:pass
     candidate=Path(__file__).resolve().parents[2]
-    return str(candidate) if (candidate/'runtime/entry.py').is_file() else ''
+    if (candidate/'runtime/entry.py').is_file():return str(candidate)
+    marker=Path(os.environ.get('LOCALAPPDATA') or Path.home()/'AppData/Local')/'Toyxyz/MotionAI/companion.json'
+    try:
+        root=Path(json.loads(marker.read_text(encoding='utf-8'))['root'])
+        if (root/'runtime/entry.py').is_file() and (root/'python_embeded/python.exe').is_file():return str(root)
+    except (OSError,ValueError,KeyError,TypeError):pass
+    return ''
 
 
 class TOYXYZ_Preferences(bpy.types.AddonPreferences):
@@ -154,10 +160,10 @@ class TOYXYZ_Settings(bpy.types.PropertyGroup):
     timeline_lane_scroll:FloatProperty(default=0,min=0,options={'HIDDEN'})
     engine:EnumProperty(name='Model',description='Choose the default model for new motion blocks',items=MODEL_ITEMS,default='ardy')
     precision:EnumProperty(name='Text Encoder',description='Choose the encoder precision to balance VRAM use and quality',items=(
-        ('bf16','BF16 · Default','Default encoder precision'),
+        ('bf16','BF16','Full-precision encoder. Requires Meta model access during setup'),
         ('int8','INT8','8-bit encoder with reduced VRAM use'),
         ('nf4','NF4','4-bit encoder with the lowest encoder VRAM use'),
-    ),default='bf16')
+    ),default='nf4')
     seed:IntProperty(name='Seed',description='Change the random seed to generate a variation',default=0,min=0)
     steps:IntProperty(name='Denoising Steps',description='Number of Kimodo refinement steps per generation',default=30,min=1,max=200)
     ardy_steps:IntProperty(name='Denoising Steps',description='Number of ARDY refinement steps per chunk',default=10,min=1,max=10)
@@ -390,7 +396,7 @@ class TOYXYZ_OT_connect(bpy.types.Operator):
         client.state.update(app_running=client.state.get('app_running',False) or client.state['connected'],
                             connected=False,connecting=True,stopping=False,scene_uid=s.scene_uid,message='Connecting to external app...')
         pref=preferences(context)
-        root=Path(bpy.path.abspath(pref.runtime_root if pref else runtime_default())).resolve()
+        root=Path(bpy.path.abspath((pref.runtime_root if pref else '') or runtime_default())).resolve()
         client.start(endpoint(context),s.scene_uid,root);return {'FINISHED'}
 
 
@@ -406,7 +412,7 @@ class TOYXYZ_OT_launch(bpy.types.Operator):
             if client.state.get('sequence') or client.state['job_status'] in ('queued','running'):
                 raise ValueError('Finish or cancel generation before reconnecting.')
             base=endpoint(context)
-            pref=preferences(context);root=Path(bpy.path.abspath(pref.runtime_root if pref else runtime_default())).resolve()
+            pref=preferences(context);root=Path(bpy.path.abspath((pref.runtime_root if pref else '') or runtime_default())).resolve()
             owner_job=lifetime.prepare(root)
             env=dict(os.environ);env[lifetime.ENV]=owner_job
             needs_update=False
@@ -627,6 +633,18 @@ def panel(layout,context):
     reconnect.enabled=not (state.get('connecting') or state.get('stopping') or state.get('sequence') or state.get('pending_connect') or state.get('auto_apply_pending') or state['job_status'] in ('queued','running'))
     reconnect.operator('toyxyz_motion_ai_tool.connect',text='',icon='LINKED')
     layout.label(text='Connected' if state['connected'] else 'Disconnected',icon='CHECKMARK' if state['connected'] else 'UNLINKED')
+    models=state.get('models_ready') if state['connected'] else None
+    if models is not None:
+        engine=current_engine(s)
+        precision='fp32' if engine=='motionbricks' else s.precision
+        if precision in models.get(engine,{}):
+            ready=models[engine][precision]
+            layout.label(text='Model files ready' if ready else 'Model files missing',icon='CHECKMARK' if ready else 'ERROR')
+            if not ready:
+                command='install.cmd' if engine=='motionbricks' else 'install.cmd -Precision '+precision
+                layout.label(text=command)
+    elif state['connected']:
+        layout.label(text='Model file status requires Companion 0.46.2',icon='INFO')
     if state['connected'] and state.get('resident_motion'):
         motion=state['resident_motion'];label={'kimodo':'Kimodo','motionbricks':'MotionBricks','ardy':'ARDY'}[motion['engine']]
         layout.label(text='GPU Model: '+label,icon='INFO')
@@ -754,7 +772,7 @@ def timer():
             if not {'object_constraints','next_motion_context','atomic_cancel'}<=set(capabilities) and _launched_app and _launched_app[1].poll() is None:
                 continue
             was_connected=client.state['connected']
-            client.state.update(connected=True,app_running=True,connecting=False,connection_error='',instance=payload['instance'],resident_motion=payload.get('resident_motion'),encoder_precision=payload.get('encoder_precision'),capabilities=capabilities)
+            client.state.update(connected=True,app_running=True,connecting=False,connection_error='',instance=payload['instance'],resident_motion=payload.get('resident_motion'),encoder_precision=payload.get('encoder_precision'),capabilities=capabilities,models_ready=payload.get('models_ready'))
             if not was_connected and not client.state['job_status']:client.state['message']='Connected. Author motion blocks and key the SOMA bones.'
         elif kind=='released':client.state.update(resident_motion=None,encoder_precision=None,message='GPU models released. The next generation loads them again.')
         elif kind=='error':

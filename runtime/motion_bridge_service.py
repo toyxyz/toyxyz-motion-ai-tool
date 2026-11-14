@@ -15,6 +15,7 @@ import webbrowser
 
 from entry import ROOT
 from encoder_profiles import PROFILES
+from installer import model_status
 from motion_bridge_protocol import APP,VERSION,SCHEMA,validate
 
 
@@ -31,11 +32,19 @@ class Application:
         self.directory=ROOT/'results'/APP;self.directory.mkdir(parents=True,exist_ok=True)
         from blender_owner import identity,job_name
         self.process_created=identity();self.lifetime_job=job_name(self.id)
+        self.readiness=None;self.readiness_checked=0
+    def model_readiness(self):
+        now=time.monotonic()
+        if self.readiness is None or now-self.readiness_checked>=3:
+            self.readiness={engine:{profile:not model_status(profile,engine=engine) for profile in profiles}
+                            for engine,profiles in (('kimodo',PROFILES),('ardy',PROFILES),('motionbricks',('fp32',)))}
+            self.readiness_checked=now
+        return self.readiness
     def state(self):
         with self.lock:
             return dict(app=APP,protocol=VERSION,instance=self.id,status='ready',engines=['kimodo','motionbricks','ardy'],
                         pid=os.getpid(),process_created=self.process_created,installation_root=str(ROOT),lifetime_job=self.lifetime_job,
-                        active_job=self.active,encoder_precision=self.encoder_precision,resident_motion=self.motion_state(),capabilities=['root_heading','root_height','delayed_curve_start','blender_process_lifetime','object_constraints','next_motion_context','atomic_cancel'],
+                        active_job=self.active,encoder_precision=self.encoder_precision,resident_motion=self.motion_state(),models_ready=self.model_readiness(),capabilities=['root_heading','root_height','delayed_curve_start','blender_process_lifetime','object_constraints','next_motion_context','atomic_cancel','model_readiness'],
                         jobs=[self.public(j) for j in list(self.jobs.values())[-12:]])
     def public(self,job):
         with self.lock:
@@ -146,6 +155,10 @@ class Application:
         raise TimeoutError('Text encoder startup timed out.')
     def submit(self,data):
         data=validate(data)
+        engine=data['engine'];precision=data['precision'] if engine!='motionbricks' else 'fp32'
+        if model_status(precision,engine=engine):
+            command='install.cmd' if engine=='motionbricks' else f'install.cmd -Precision {precision}'
+            raise ValueError(f'The {engine} model files are missing. Run {command} in the companion folder.')
         with self.lock:
             cancelling=self.runner if self.active and self.jobs[self.active]['status']=='cancelled' else None
         if cancelling is not None:cancelling.join(timeout=4)

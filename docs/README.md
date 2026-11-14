@@ -5,7 +5,7 @@
 - Windows x64 with PowerShell and a CUDA 12.8-compatible NVIDIA driver.
 - Blender 5.2 or later. The add-on was tested on Blender 5.2.3 LTS.
 - Internet access for initial runtime, model and asset downloads.
-- About 35 GB of free disk space for a new BF16 installation, including retained download volumes and room for setup. The split runtime download is about 2.94 GB. The unpacked runtime is about 8.82 GB. The BF16 model and asset downloads total about 19.5 GB. Installing every encoder profile needs more space.
+- Allow about 24 GB of free disk space for the default NF4 installation and about 35 GB for BF16. The split runtime download is about 2.94 GB, and the unpacked runtime is about 8.82 GB. Installing every encoder profile needs more space.
 
 The companion uses its bundled CPython 3.12 environment and CUDA libraries. You can use the release without installing system Python, pip, a compiler or a separate CUDA Toolkit.
 
@@ -13,7 +13,7 @@ The companion uses its bundled CPython 3.12 environment and CUDA libraries. You 
 
 If the matching Windows companion is already installed, install only the Blender add-on ZIP and keep **External App Folder** pointed at that companion.
 
-1. From the [release page](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.1), download the **Windows companion ZIP** [`MotionAI_Portable-0.46.1-source.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/MotionAI_Portable-0.46.1-source.zip) and the **Blender add-on ZIP** [`toyxyz_motion_ai_tool-0.46.1-blender-addon.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/toyxyz_motion_ai_tool-0.46.1-blender-addon.zip).
+1. From the [release page](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.2), download **`MotionAI_Windows_Companion-0.46.2.zip`** and **`toyxyz_motion_ai_tool-0.46.2-blender-addon.zip`**.
 2. Extract the companion ZIP to a writable folder such as `D:\MotionAI`. Use the folder that contains `install.cmd` and `runtime`. Keep the folder path free of semicolon characters. GitHub's automatically generated **Source code (zip)** is optional.
 3. Open Command Prompt in that folder and run:
 
@@ -21,10 +21,10 @@ If the matching Windows companion is already installed, install only the Blender
    install.cmd
    ```
 
-   The installer downloads both runtime volumes, checks their SHA-256 hashes, extracts the embedded Python environment and downloads the pinned model files. If prompted for a Hugging Face token, use a read token from an account that has been granted access to [Meta Llama 3 8B Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct). The installer accepts the token at a hidden prompt.
-4. In Blender, open **Edit > Preferences > Add-ons**. Choose **Install from Disk** from the top-right menu, select **`toyxyz_motion_ai_tool-0.46.1-blender-addon.zip`**, and enable **toyxyz_motion_ai_tool** if required.
-5. Expand the add-on preferences. Set **External App Folder** to the extracted folder containing `install.cmd`. Save preferences if needed.
-6. In the 3D View, press **N**, open **Motion AI**, and click **Start**. Add a SOMA actor and open the Motion Timeline. Select a prompt block, then click **Generate Motion**.
+   The installer downloads and verifies both runtime volumes, extracts Python, and downloads the pinned NF4 models. The default NF4 encoder is publicly downloadable. If you choose BF16, use a read token from an account with access to [Meta Llama 3 8B Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) at the hidden prompt.
+4. In Blender, open **Edit > Preferences > Add-ons**. Choose **Install from Disk** from the top-right menu, select the Blender add-on ZIP, and enable **toyxyz_motion_ai_tool** if required.
+5. In the 3D View, press **N**, open **Motion AI**, and click **Start**. Blender uses the companion registered by `install.cmd`. Set **External App Folder** in the add-on preferences for a manually moved or alternate installation.
+6. When the panel shows **Model files ready**, add a SOMA actor and open the Motion Timeline. Select a prompt block, then click **Generate Motion**. For missing files, use the installation command shown in the sidebar.
 
 ## Choose an encoder profile
 
@@ -37,11 +37,11 @@ install.cmd -Precision nf4
 install.cmd -Precision all
 ```
 
-Choose the matching encoder precision in Blender's Motion AI settings. BF16 is the default. INT8 and NF4 use less encoder memory and can produce different motion. Kimodo and ARDY use the text encoder. MotionBricks generates between Full Body pose targets and uses its own model.
+Choose the matching encoder precision in Blender's Motion AI settings. New installations and new settings default to NF4. Existing saved encoder selections can still be used. Kimodo and ARDY use the text encoder. MotionBricks generates between Full Body pose targets using its own model.
 
 ## Use manually downloaded runtime volumes
 
-Download both `.7z.001` and `.7z.002` assets from the same release. Put them in a `downloads` folder beside `install.cmd`. Run `install.cmd` to verify and extract both volumes together, then download the model files. Use `install.cmd -RuntimeOnly` to prepare only Python. Offline generation requires the pinned model files and engine assets to be present as well. See [distribution and checksums](DISTRIBUTION.md).
+Download both `.7z.001` and `.7z.002` volumes from the [v0.46.1 runtime release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.1). Put them in a `downloads` folder beside `install.cmd`. Run `install.cmd` to verify and extract both volumes together, then download the model files. Use `install.cmd -RuntimeOnly` to prepare only Python. Offline generation requires the pinned model files and engine assets to be present as well. See [distribution and checksums](DISTRIBUTION.md).
 
 ## Author and export motion
 
@@ -59,4 +59,5 @@ See the [Blender workflow](BLENDER_ADDON.md), [constraint controls](KEYFRAME_CON
 - If the companion cannot start, check **External App Folder**, run `install.cmd -Verify`, and inspect `logs/toyxyz_motion_ai_tool_app.log`. `check.cmd` runs engine import and CUDA checks.
 - If model setup fails with an access error, verify your Hugging Face account's model access and retry with a read token.
 - If a runtime volume is reported corrupt, replace the named volume or partial download and retry. If GPU memory is tight, prepare a smaller encoder profile and select it in Blender.
+- The companion keeps prompts, pose constraints and generated outputs in `results/toyxyz_motion_ai_tool`. After stopping it, you can remove completed job folders you no longer need. Review `logs/` and diagnostic reports for local paths before sharing them.
 - Review [component licenses and model distribution](DISTRIBUTION.md#third-party-components) before redistributing the packages or downloaded assets.

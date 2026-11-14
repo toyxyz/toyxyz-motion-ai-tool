@@ -8,9 +8,9 @@ If the matching Windows companion is already installed, download and install onl
 
 For a fresh installation, download these two files from the [latest release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest).
 
-1. **Windows companion** — Extract [`MotionAI_Portable-0.46.1-source.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/MotionAI_Portable-0.46.1-source.zip) and run `install.cmd`. It downloads the embedded Python runtime and models. The default BF16 encoder may prompt for a Hugging Face read token with access to Meta Llama 3.
-2. **Blender add-on** — In Blender 5.2 or later, open **Edit > Preferences > Add-ons > Install from Disk**, select [`toyxyz_motion_ai_tool-0.46.1-blender-addon.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/toyxyz_motion_ai_tool-0.46.1-blender-addon.zip), and enable **toyxyz_motion_ai_tool**.
-3. Set **External App Folder** to the folder containing `install.cmd`. Open **Motion AI** in the 3D View sidebar and click **Start**.
+1. **Windows companion** — Extract [`MotionAI_Windows_Companion-0.46.2.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.2/MotionAI_Windows_Companion-0.46.2.zip) and run `install.cmd`. It checks the PC, then downloads Python and the default NF4 models.
+2. **Blender add-on** — In Blender 5.2 or later, open **Edit > Preferences > Add-ons > Install from Disk**, select [`toyxyz_motion_ai_tool-0.46.2-blender-addon.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.2/toyxyz_motion_ai_tool-0.46.2-blender-addon.zip), and enable **toyxyz_motion_ai_tool**.
+3. Open **Motion AI** in the 3D View sidebar and click **Start**. The add-on finds the companion installed for your Windows account. To use another copy, set **External App Folder** to the folder containing `install.cmd`.
 
 The companion ZIP contains the installer and app files. You can skip GitHub's automatically generated **Source code (zip)** and the separate runtime volumes when using `install.cmd`.
 

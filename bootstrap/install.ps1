@@ -95,6 +95,19 @@ function Get-Volume([object]$Part, [string]$Directory, [string]$BaseUrl) {
 $Guard = $null; $Client = $null
 try {
     if ($Root.Contains(';')) { throw 'Installation paths cannot contain semicolons (;).' }
+    if (-not $RuntimeOnly -and -not $Verify) {
+        $Adapter = Get-Command nvidia-smi.exe -ErrorAction SilentlyContinue
+        if (-not $Adapter -and (Test-Path "$env:SystemRoot\System32\nvidia-smi.exe")) {
+            $Adapter = Get-Command "$env:SystemRoot\System32\nvidia-smi.exe"
+        }
+        if (-not $Adapter -or -not (& $Adapter.Source --query-gpu=name --format=csv,noheader 2>$null)) {
+            Write-Warning 'No NVIDIA GPU was detected. Install a compatible NVIDIA driver before generating motion.'
+        }
+        $Drive = [IO.DriveInfo]::new([IO.Path]::GetPathRoot($Root))
+        if ($Drive.IsReady -and $Drive.AvailableFreeSpace -lt 24GB) {
+            Write-Warning 'A fresh NF4 installation can need about 24 GB of free disk space. BF16 and installing every profile require more.'
+        }
+    }
     [IO.Directory]::CreateDirectory($Work) | Out-Null
     $Guard = [IO.File]::Open((Join-Path $Work 'install.lock'), [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
     $Valid = Test-Environment $EnvironmentPath

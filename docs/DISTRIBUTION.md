@@ -1,6 +1,6 @@
 # Source and Runtime Distribution
 
-The [GitHub release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.1) provides the Windows companion ZIP, Blender add-on ZIP and the split Windows runtime. See the [installation and workflow guide](README.md) for the end-user steps.
+The [current GitHub release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest) provides the Windows companion and Blender add-on ZIPs. The companion's pinned runtime volumes are reused from v0.46.1. See the [installation and workflow guide](README.md) for the end-user steps.
 
 ## Layout
 
@@ -35,9 +35,9 @@ Python and required packages travel together as one `python_embeded` folder. Lar
 
 ## End-user installation
 
-Extract the **Windows companion ZIP** [`MotionAI_Portable-0.46.1-source.zip`](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1/MotionAI_Portable-0.46.1-source.zip) from the matching GitHub release. The archive contains the companion application, installer, and pinned manifests. A Git checkout or GitHub's automatically generated source archive can also supply those files.
+Extract **`MotionAI_Windows_Companion-0.46.2.zip`** from the matching GitHub release. It contains the Blender companion application, installer, engine code and required assets for the Blender workflow. The GitHub source archive also contains upstream demos and developer tooling.
 
-1. Run `install.cmd`. The default precision is BF16. Select another profile with `-Precision int8`, `-Precision nf4`, or `-Precision all`.
+1. Run `install.cmd`. New installations default to NF4. Select another profile with `-Precision bf16`, `-Precision int8`, or `-Precision all`.
 2. A matching `python_embeded` folder is reused. Its first adoption verifies all immutable runtime files.
 3. If missing, all pinned split volumes are downloaded and checked against their SHA-256 hashes. A `.partial` download resumes when the server supports HTTP Range.
 4. Extraction occurs inside `.install/stage_*`. The staged version, critical files, complete file manifest, Python isolation and UTF-8 native host are verified before activation.
@@ -59,6 +59,8 @@ The default runtime URL is pinned in `manifests/runtime.lock.json`. For a mirror
 An unchanged runtime ID avoids another large download. An updated runtime is staged and verified before activation. Ordinary source edits do not require rebuilding the Python environment.
 
 ## Developer packaging
+
+Build the Blender add-on and curated Companion ZIP from a tracked Git tree with `python build_tools/package_blender_release.py --output dist`. Run the release checks on the packaged files before publishing.
 
 ```bat
 python_embeded\python.exe -X utf8 build_tools\package_runtime.py --output distribution

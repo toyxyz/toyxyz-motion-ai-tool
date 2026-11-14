@@ -12,7 +12,7 @@ import urllib.request
 import webbrowser
 from entry import ROOT
 from encoder_profiles import PROFILES
-from installer import settings,model_status
+from installer import DEFAULT_PRECISION,settings,model_status
 
 PORT=8788
 
@@ -50,7 +50,7 @@ class Manager:
                 result.update(state='failed',message='A demo stopped. Stop All, then start again.')
             return dict(result,gpu=gpu_info())
     def start(self,config):
-        precision=config.get('precision','bf16');engines=config.get('engines',['kimodo','ardy'])
+        precision=config.get('precision',DEFAULT_PRECISION);engines=config.get('engines',['kimodo','ardy'])
         if precision not in PROFILES or not engines or any(e not in ('kimodo','ardy') for e in engines):raise ValueError('Invalid configuration.')
         with self.lock:
             active=[p for p in self.children if p.poll() is None and 'motionbricks' not in p.args]

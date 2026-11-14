@@ -25,7 +25,7 @@ def owned(obj,role):
 
 def asset_path(context):
     from . import preferences,runtime_default
-    pref=preferences(context);root=Path(bpy.path.abspath(pref.runtime_root if pref else runtime_default()))
+    pref=preferences(context);root=Path(bpy.path.abspath((pref.runtime_root if pref else '') or runtime_default()))
     for engine in ('kimodo','ardy'):
         path=root/f'engines/{engine}/{engine}/assets/skeletons/somaskel77/skin_standard.npz'
         if path.is_file():return path
