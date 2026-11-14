@@ -12,9 +12,11 @@ Download the [Blender add-on](https://github.com/toyxyz/toyxyz-motion-ai-tool/re
 
 The companion ZIP contains the installer and app files. You can skip GitHub's automatically generated **Source code (zip)** and the separate runtime volumes when using `install.cmd`.
 
-A compatible NVIDIA GPU and driver are required for generation. Start with the [detailed guide](docs/README.md) for storage requirements, manual downloads, encoder profiles, and troubleshooting. See the [Blender workflow](docs/BLENDER_ADDON.md) and [distribution details](docs/DISTRIBUTION.md) for further reference.
+The default **NF4** setup requires no Hugging Face token. Downloading the gated **BF16** files requires Meta Llama model access and a Hugging Face **Read** token. [Token setup](docs/README.md#hugging-face-access-for-bf16)
+
+A compatible NVIDIA GPU and driver are required for generation. See the [installation guide](docs/README.md) for storage, [port changes](docs/README.md#change-the-companion-port), and troubleshooting. See the [Blender workflow](docs/BLENDER_ADDON.md) for motion authoring and FBX export.
 
 ## ARDY block transitions
 
-When generating touching ARDY blocks one at a time, **Motion Post-Processing** can use samples from both full blocks for ARDY's native contact cleanup. The add-on preserves the existing swing animation away from predicted contacts. Regenerate the preceding block with 0.46.4 to supply its original model samples. [Behavior and eligibility](docs/ARDY_BLOCKS.md#shared-contact-cleanup).
+When generating touching ARDY blocks one at a time, **Motion Post-Processing** can use samples from both full blocks for ARDY's native contact cleanup. The add-on preserves the existing swing animation away from predicted contacts. Regenerate the preceding block with Windows Companion 0.46.4 to supply its original model samples. [Behavior and eligibility](docs/ARDY_BLOCKS.md#shared-contact-cleanup).
 

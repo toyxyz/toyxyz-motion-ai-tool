@@ -23,12 +23,12 @@ ARDY produces a 30-joint body representation, expanded with the official SOMA co
 
 ## Shared contact cleanup
 
-With the 0.46.4 add-on and companion, enable **Motion Post-Processing**, generate an ARDY block, then generate the touching ARDY block to its right. If ARDY predicts that the same foot is in contact across the boundary, its native post-processing uses the full sequence of original model samples from the two blocks. The existing transition supplies the swing-leg animation away from predicted contacts. The result is stored in the **Motion AI · Block Transitions** NLA track above the source Actions.
+With Blender add-on 0.46.5 and Windows Companion 0.46.4, enable **Motion Post-Processing**, generate an ARDY block, then generate the touching ARDY block to its right. If ARDY predicts that the same foot is in contact across the boundary, its native post-processing uses the full sequence of original model samples from the two blocks. The existing transition supplies the swing-leg animation away from predicted contacts. The result is stored in the **Motion AI · Block Transitions** NLA track above the source Actions.
 
 - The previous block can change during playback. Its generated Action remains available underneath the transition track. Mute that track in the NLA Editor to review the underlying clips.
 - When a following generation creates another eligible pair, both native solves use complete input blocks. Their playback ranges meet at the midpoint of the shared block and ease back to the generated motion at that handoff.
 - Shared cleanup uses blocks with unchanged strip timing and boundaries aligned to the model's 30 Hz samples. Authored pose keys, object constraints, path curves, or a correction boundary layer can cause Blender to use its ordinary transition behavior to protect the authored motion.
-- To supply full-block samples for an older scene, regenerate the preceding block with 0.46.4 before generating its neighbor. Existing short transition results can still play in saved projects.
+- To supply full-block samples for an older scene, regenerate the preceding block with Windows Companion 0.46.4 before generating its neighbor. Existing short transition results can still play in saved projects.
 
 Selecting multiple touching ARDY blocks in one **Generate Motion** command produces one continuous model result. The worker carries its generated history across prompts and applies native post-processing to the sequence.
 

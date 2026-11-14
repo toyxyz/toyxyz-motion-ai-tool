@@ -42,7 +42,7 @@ Extract **`MotionAI_Windows_Companion-0.46.4.zip`** from the Windows companion r
 3. If missing, all pinned split volumes are downloaded and checked against their SHA-256 hashes. A `.partial` download resumes when the server supports HTTP Range.
 4. Extraction occurs inside `.install/stage_*`. The staged version, critical files, complete file manifest, Python isolation and UTF-8 native host are verified before activation.
 5. Replaced environments are retained under `.install/previous_*`. Active workers are not replaced. Failed staging folders are retained for inspection.
-6. Files for the selected models are fetched from pinned upstream locations. BF16 may require a Hugging Face account with model access. Enter a Read token at the hidden console prompt when authentication is required. The token is used for the download and is never written to disk.
+6. Files for the selected models are fetched from pinned upstream locations. When BF16 needs gated Llama files, enter a Hugging Face Read token from the approved account at the hidden console prompt. The installer uses the token for those downloads and does not save it. See [token setup and troubleshooting](README.md#hugging-face-access-for-bf16).
 
 Use `install.cmd -RuntimeOnly` to prepare only the runtime. For a full recheck of a specific installation, use `install.cmd -Verify -Models <list>` and pass the matching encoder profile if needed.
 
@@ -58,7 +58,7 @@ The default runtime URL is pinned in `manifests/runtime.lock.json`. For a mirror
 
 An unchanged runtime ID avoids another large download. An updated runtime is staged and verified before activation. Ordinary source edits do not require rebuilding the Python environment.
 
-Version 0.46.4 adds full-block ARDY transition data to the local companion protocol. Use the matching Blender add-on and restart both applications after updating. The companion release hosts the existing runtime revision with the same hashes.
+Windows Companion 0.46.4 works with Blender add-on 0.46.5 and supplies full-block ARDY transition data. Restart both applications after replacing the companion files. The companion release hosts the existing runtime revision with the same hashes.
 
 ## Developer packaging
 

@@ -17,14 +17,27 @@ Blender add-on 0.46.5 works with Windows Companion 0.46.4. If Companion 0.46.4 i
 2. Extract the companion ZIP to a writable folder such as `D:\MotionAI`. Use the folder that contains `install.cmd` and `runtime`. Keep the folder path free of semicolon characters. GitHub's automatically generated **Source code (zip)** is optional.
 3. Double-click `install.cmd`. Use **Up/Down** to move, **Space** to check or uncheck a model, and **Enter** to confirm. All three models are checked initially. The installer verifies the Python runtime and downloads the files for the selected models. The console displays **Installation complete** or **Installation failed** and waits for a key.
 
-   If you select Kimodo or ARDY, a second menu lets you choose **NF4**, **INT8**, **BF16**, or **All**. NF4 is checked by default. Use **Space** to select a different profile and **Enter** to confirm. MotionBricks uses its own pose model. If BF16 or All needs to download restricted files, the console displays these steps before any downloads begin.
-
-   - Sign in, accept the license, and request access on the [Meta Llama 3 8B Instruct model page](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct). Wait for approval.
-   - In the same approved account, open [Access Tokens](https://huggingface.co/settings/tokens). Choose **New token**, select **Read**, name the token, and copy it.
-   - Paste the token into the hidden installer prompt. The installer uses it for the model download and does not save it. Press Enter at an empty prompt to cancel.
+   If you selected Kimodo or ARDY, use **Space** and **Enter** in the second menu to choose a text encoder. **NF4** is the default. See [Hugging Face access for BF16](#hugging-face-access-for-bf16) if you choose **BF16** or **All**.
 4. In Blender, open **Edit > Preferences > Add-ons**. Choose **Install from Disk** from the top-right menu, select the Blender add-on ZIP, and enable **toyxyz_motion_ai_tool** if required.
 5. In the 3D View, press **N**, open **Motion AI**, and click **Start**. With **External App Folder** blank, Blender uses the companion registered by `install.cmd`. Set the field for a manually moved or alternate installation. Clear a saved path to return to automatic detection.
-6. Add a SOMA actor and open the Motion Timeline. Choose an installed model for the active block. When the panel shows **Model files ready**, click **Generate Motion**. For missing files, use the installation command shown in the sidebar.
+6. Under **SOMA Rigs**, click **Add**, then click **Open Motion Timeline**. Choose an installed model for the active block. When the panel shows **Model files ready**, click **Generate Motion**. For missing files, run the installation command shown in the sidebar from the companion folder.
+
+## Hugging Face access for BF16
+
+| Installer selection | Hugging Face token |
+| --- | --- |
+| Kimodo or ARDY with **NF4** (default) or **INT8** | No token for the currently pinned public downloads |
+| Kimodo or ARDY with **BF16** or **All** | A Read token is required when the gated Llama files need to be downloaded. The installer reuses files that pass its checks. |
+| **MotionBricks** only | Uses its own pose model and skips the text encoder menu and token prompt |
+| **Runtime only** (`-RuntimeOnly`) | Installs the Python runtime without a token |
+
+1. Sign in to Hugging Face, accept the license and submit the access request on the [Meta Llama 3 8B Instruct model page](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct). Wait for access to be approved.
+2. In the same account, open [Access Tokens](https://huggingface.co/settings/tokens). Choose **New token**, select **Read**, give it a name, and copy it. Approval is tied to the account that created the token. [Hugging Face token guide](https://huggingface.co/docs/hub/security-tokens)
+3. Run `install.cmd` in a Windows console. Select Kimodo or ARDY and **BF16** or **All**. When matching Llama files are missing or need replacement, the hidden console prompt appears before runtime or model downloads. Paste the token there. Press **Enter** with an empty prompt to cancel.
+
+The installer uses the token only to download the gated Llama files. It does not store the token in Blender, companion settings, or a Hugging Face login cache. The installed models run locally without the token.
+
+If Hugging Face returns **401** or **403**, confirm that the account can access the Llama files in your browser, then create a Read token from that account and rerun the installer. Choose **NF4** or **INT8** to install the public encoder files while access is pending.
 
 ## Change the companion port
 
@@ -53,9 +66,9 @@ install.cmd -Models kimodo,ardy -Precision nf4
 install.cmd -Models motionbricks -NoPause
 ```
 
-Use `-Models` for a specific selection and `-NoPause` for scripts that need the installer exit code immediately. An explicit `-Precision` skips the model menu and applies to all models if `-Models` is omitted. Rerun the installer to add models. It reuses existing matching files.
+Use `-Models` for a specific selection. When `-Models` is omitted, command-line installation checks all three models. Options such as `-Models`, `-Precision`, `-Verify`, and `-NoPause` skip the interactive selection menus. `-NoPause` also skips the final keypress. If new BF16 files require a token, run the command in a Windows console with interactive input. Rerun the installer to add models or profiles. It reuses existing matching files.
 
-Choose the matching encoder precision in Blender's Motion AI settings. New installations and new settings default to NF4. Existing saved encoder selections can still be used.
+Choose **Text Encoder** in Blender's Motion AI panel when a Kimodo or ARDY block is active. Match it to one of the profiles you installed. **All** installs every profile. Blender runs one selected profile per job.
 
 ## Use manually downloaded runtime volumes
 
@@ -63,20 +76,20 @@ Download both `.7z.001` and `.7z.002` volumes from the [Windows companion releas
 
 ## Author and export motion
 
-- Create separate SOMA actors for independent timelines. Add ARDY or Kimodo prompt blocks, or use MotionBricks between Full Body pose keys.
+- Create separate SOMA actors for independent timelines. Choose **Kimodo** for text prompts with pose or path control. Choose **ARDY** for text-driven locomotion and longer sequences. Choose **MotionBricks** to connect **Full Body** pose keys. Its **Notes** field is for your own reference.
+- For a first MotionBricks block, key a start and a destination pose inside the block. A generated clip before the block can supply the start pose, and a touching generated clip after it can supply the destination. See [MotionBricks timing](BLENDER_ADDON.md#duration-bounds).
 - Key the source actor in Blender. The Motion Timeline supports native pose keys, optional FK/IK controls, object constraints and path curves where supported by the selected model.
 - Select contiguous blocks to generate in sequence. A block can use adjacent generated clips as start and end references.
 - For ARDY blocks generated one at a time, enable **Motion Post-Processing** and generate from left to right to use [shared contact cleanup](ARDY_BLOCKS.md#shared-contact-cleanup). Both blocks must provide the original model samples saved by the 0.46.4 companion.
 - Add a **Control Layer** for editable corrections over generated motion. Layers can be muted, moved, trimmed or removed.
 - Select an actor and choose **Export FBX** to export the evaluated motion as one animation on its SOMA skeleton.
 
-See the [Blender workflow](BLENDER_ADDON.md), [constraint controls](KEYFRAME_CONSTRAINT_TYPES.md), [path curves](KIMODO_PATH_CURVES.md), and [local agent commands](AGENT_CONTROL.md).
+See the [Blender workflow](BLENDER_ADDON.md), [constraint controls](KEYFRAME_CONSTRAINT_TYPES.md), [path curves](KIMODO_PATH_CURVES.md), [ARDY blocks](ARDY_BLOCKS.md), and [local agent commands](AGENT_CONTROL.md).
 
 ## Update and troubleshoot
 
 - Close Blender before updating the add-on. To update the companion, stop it, extract the new ZIP to a separate folder, and run its `install.cmd`. You can copy a compatible `python_embeded` folder and the existing `models` folder into the new companion folder first. The installer verifies and reuses matching files. Clear any saved **External App Folder** override to use the newly registered installation, or point it to the new folder. For a Git checkout, run `update.cmd`.
-- If the companion cannot start, check **External App Folder**, run `install.cmd -Verify`, and inspect `logs/toyxyz_motion_ai_tool_app.log`. `check.cmd` runs engine import and CUDA checks.
-- If model setup fails with an access error, verify your Hugging Face account's model access and retry with a read token.
+- If the companion cannot start, check **External App Folder**, run `check.cmd` for runtime and CUDA checks, and inspect `logs/toyxyz_motion_ai_tool_app.log`. To check model files by SHA-256, rerun setup with the installed selection, for example `install.cmd -Verify -Models ardy -Precision nf4`.
 - If a runtime volume is reported corrupt, replace the named volume or partial download and retry. If GPU memory is tight, prepare a smaller encoder profile and select it in Blender.
 - The companion keeps prompts, pose constraints and generated outputs in `results/toyxyz_motion_ai_tool`. After stopping it, you can remove completed job folders you no longer need. Review `logs/` and diagnostic reports for local paths before sharing them.
 - Review [component licenses and model distribution](DISTRIBUTION.md#third-party-components) before redistributing the packages or downloaded assets.
