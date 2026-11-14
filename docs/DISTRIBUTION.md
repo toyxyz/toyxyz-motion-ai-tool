@@ -1,6 +1,6 @@
 # Source and Runtime Distribution
 
-The [current GitHub release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest) provides the Windows companion and Blender add-on ZIPs. The companion's pinned runtime volumes are reused from v0.46.1. See the [installation and workflow guide](README.md) for the end-user steps.
+The [Blender add-on release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest) provides the ZIP for Blender. The separate [Windows companion release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/windows-companion-v0.46.4) provides the companion ZIP and the pinned Python runtime volumes. See the [installation and workflow guide](README.md) for the end-user steps.
 
 ## Layout
 
@@ -35,7 +35,7 @@ Python and required packages travel together as one `python_embeded` folder. Lar
 
 ## End-user installation
 
-Extract **`MotionAI_Windows_Companion-0.46.4.zip`** from the matching GitHub release. It contains the Blender companion application, installer, engine code and required assets for the Blender workflow. The GitHub source archive also contains upstream demos and developer tooling.
+Extract **`MotionAI_Windows_Companion-0.46.4.zip`** from the Windows companion release. It contains the Blender companion application, installer, engine code and required assets for the Blender workflow. The GitHub source archive also contains upstream demos and developer tooling.
 
 1. Run `install.cmd` and choose one or more motion models. New text-encoder installations default to NF4. For a scripted selection, pass `-Models kimodo,ardy` or any combination of `kimodo`, `ardy`, and `motionbricks`. Select another encoder profile with `-Precision bf16`, `-Precision int8`, or `-Precision all`.
 2. A matching `python_embeded` folder is reused. Its first adoption verifies all immutable runtime files.
@@ -58,7 +58,7 @@ The default runtime URL is pinned in `manifests/runtime.lock.json`. For a mirror
 
 An unchanged runtime ID avoids another large download. An updated runtime is staged and verified before activation. Ordinary source edits do not require rebuilding the Python environment.
 
-Version 0.46.4 adds full-block ARDY transition data to the local companion protocol. Use the matching Blender add-on and restart both applications after updating. The release reuses the v0.46.1 runtime volumes.
+Version 0.46.4 adds full-block ARDY transition data to the local companion protocol. Use the matching Blender add-on and restart both applications after updating. The companion release hosts the existing runtime revision with the same hashes.
 
 ## Developer packaging
 
@@ -74,7 +74,7 @@ Current archive: 2,939,315,421 bytes in two volumes of 1,610,612,736 and 1,328,7
 
 `environment.files.json` pins immutable environment files. `runtime.lock.json` pins that manifest's hash and the release volumes. When package/native runtime content changes, create a new runtime ID and manifest before packaging.
 
-Publish runtime volumes as release assets and pin the fixed release URL in `publication.base_url`. Git tracks the source and manifests. Release assets carry the runtime and add-on ZIP.
+Publish the add-on ZIP on the Blender release and publish the companion ZIP and runtime volumes on the companion release. Pin the companion's versioned runtime download URL in `publication.base_url`. Verify the runtime assets at the new URL before retiring an older release that hosts them.
 
 ## Validation boundaries
 

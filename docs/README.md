@@ -13,7 +13,7 @@ The companion uses its bundled CPython 3.12 environment and CUDA libraries. You 
 
 Use the Blender add-on and Windows companion from the same release. If the matching companion is already installed, install the Blender add-on ZIP and keep **External App Folder** pointed at the companion.
 
-1. From the [0.46.4 release page](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.4), download **`MotionAI_Windows_Companion-0.46.4.zip`** and **`toyxyz_motion_ai_tool-0.46.4-blender-addon.zip`**.
+1. Download **`MotionAI_Windows_Companion-0.46.4.zip`** from the [Windows companion release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/windows-companion-v0.46.4) and **`toyxyz_motion_ai_tool-0.46.4-blender-addon.zip`** from the [Blender add-on release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.4).
 2. Extract the companion ZIP to a writable folder such as `D:\MotionAI`. Use the folder that contains `install.cmd` and `runtime`. Keep the folder path free of semicolon characters. GitHub's automatically generated **Source code (zip)** is optional.
 3. Double-click `install.cmd`. Use **Up/Down** to move, **Space** to check or uncheck a model, and **Enter** to confirm. All three models are checked initially. The installer verifies the Python runtime and downloads the files for the selected models. The console displays **Installation complete** or **Installation failed** and waits for a key.
 
@@ -45,7 +45,7 @@ Choose the matching encoder precision in Blender's Motion AI settings. New insta
 
 ## Use manually downloaded runtime volumes
 
-Download both `.7z.001` and `.7z.002` volumes from the [v0.46.1 runtime release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.1). Put them in a `downloads` folder beside `install.cmd`. Run `install.cmd` to verify and extract both volumes together, then download the model files. Use `install.cmd -RuntimeOnly` to prepare only Python. Offline generation requires the pinned model files and engine assets to be present as well. See [distribution and checksums](DISTRIBUTION.md).
+Download both `.7z.001` and `.7z.002` volumes from the [Windows companion release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/windows-companion-v0.46.4). Put them in a `downloads` folder beside `install.cmd`. Run `install.cmd` to verify and extract both volumes together, then download the model files. Use `install.cmd -RuntimeOnly` to prepare only Python. Offline generation requires the pinned model files and engine assets to be present as well. See [distribution and checksums](DISTRIBUTION.md).
 
 ## Author and export motion
 

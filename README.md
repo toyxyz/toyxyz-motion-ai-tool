@@ -4,7 +4,7 @@ Generate and edit SOMA character motion in Blender using **Kimodo**, **ARDY**, a
 
 ## Install on Windows
 
-Download both ZIPs from the [latest release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest). Updating to 0.46.4 requires the matching companion for the new ARDY transition. Setup can reuse the existing Python runtime and model files.
+Download the [Blender add-on](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest) and the [Windows companion](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/windows-companion-v0.46.4) from their separate releases. Updating to 0.46.4 requires the matching companion for the new ARDY transition. Setup can reuse the existing Python runtime and model files.
 
 1. Extract **MotionAI_Windows_Companion-0.46.4.zip** and double-click `install.cmd`. Choose the motion models and, when requested, the text encoder. The installer displays the outcome until you press a key.
 2. In Blender 5.2 or later, open **Edit > Preferences > Add-ons > Install from Disk**, select **toyxyz_motion_ai_tool-0.46.4-blender-addon.zip**, and enable **toyxyz_motion_ai_tool**.

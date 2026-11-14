@@ -4,7 +4,7 @@
   "layout": "python_embeded/packages",
   "publication": {
     "status": "github-release",
-    "base_url": "https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/v0.46.1"
+    "base_url": "https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/download/windows-companion-v0.46.4"
   },
   "archive_base": "MotionAI_Runtime_windows-x64-cp312-cu128-20261107-r2.7z",
   "parts": [
