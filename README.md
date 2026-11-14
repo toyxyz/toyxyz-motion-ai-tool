@@ -2,6 +2,10 @@
 
 Generate and edit SOMA character motion in Blender using **Kimodo**, **ARDY**, and **MotionBricks**. The Windows companion runs the models locally. In Blender, use motion blocks, pose keys, paths, and control layers to author motion, then export the finished animation as FBX.
 
+## Demo
+
+https://github.com/user-attachments/assets/936f82a2-da96-4285-83be-b85a2f0fd369
+
 ## Install on Windows
 
 Download the [Blender add-on](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest) and the [Windows companion](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/windows-companion-v0.46.4) from their separate releases. Add-on 0.46.5 works with Windows Companion 0.46.4. Setup can reuse the existing Python runtime and model files.
