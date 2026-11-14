@@ -4,11 +4,11 @@ Generate and edit SOMA character motion in Blender using **Kimodo**, **ARDY**, a
 
 ## Install on Windows
 
-Download the [Blender add-on](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest) and the [Windows companion](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/windows-companion-v0.46.4) from their separate releases. Updating to 0.46.4 requires the matching companion for the new ARDY transition. Setup can reuse the existing Python runtime and model files.
+Download the [Blender add-on](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest) and the [Windows companion](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/windows-companion-v0.46.4) from their separate releases. Add-on 0.46.5 works with Windows Companion 0.46.4. Setup can reuse the existing Python runtime and model files.
 
 1. Extract **MotionAI_Windows_Companion-0.46.4.zip** and double-click `install.cmd`. Choose the motion models and, when requested, the text encoder. The installer displays the outcome until you press a key.
-2. In Blender 5.2 or later, open **Edit > Preferences > Add-ons > Install from Disk**, select **toyxyz_motion_ai_tool-0.46.4-blender-addon.zip**, and enable **toyxyz_motion_ai_tool**.
-3. Open **Motion AI** in the 3D View sidebar and click **Start**. The add-on finds the companion installed for your Windows account. To use another copy, set **External App Folder** to the folder containing `install.cmd`.
+2. In Blender 5.2 or later, open **Edit > Preferences > Add-ons > Install from Disk**, select **toyxyz_motion_ai_tool-0.46.5-blender-addon.zip**, and enable **toyxyz_motion_ai_tool**.
+3. Open **Motion AI** in the 3D View sidebar and click **Start**. Leave **External App Folder** blank to find the companion installed for your Windows account. To use another copy, set it to the folder containing `install.cmd`.
 
 The companion ZIP contains the installer and app files. You can skip GitHub's automatically generated **Source code (zip)** and the separate runtime volumes when using `install.cmd`.
 

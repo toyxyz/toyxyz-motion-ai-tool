@@ -11,9 +11,9 @@ The companion uses its bundled CPython 3.12 environment and CUDA libraries. You 
 
 ## Install the companion and Blender add-on
 
-Use the Blender add-on and Windows companion from the same release. If the matching companion is already installed, install the Blender add-on ZIP and keep **External App Folder** pointed at the companion.
+Blender add-on 0.46.5 works with Windows Companion 0.46.4. If Companion 0.46.4 is already installed, install the Blender add-on ZIP and leave **External App Folder** blank for automatic detection.
 
-1. Download **`MotionAI_Windows_Companion-0.46.4.zip`** from the [Windows companion release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/windows-companion-v0.46.4) and **`toyxyz_motion_ai_tool-0.46.4-blender-addon.zip`** from the [Blender add-on release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.4).
+1. Download **`MotionAI_Windows_Companion-0.46.4.zip`** from the [Windows companion release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/windows-companion-v0.46.4) and **`toyxyz_motion_ai_tool-0.46.5-blender-addon.zip`** from the [Blender add-on release](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/latest).
 2. Extract the companion ZIP to a writable folder such as `D:\MotionAI`. Use the folder that contains `install.cmd` and `runtime`. Keep the folder path free of semicolon characters. GitHub's automatically generated **Source code (zip)** is optional.
 3. Double-click `install.cmd`. Use **Up/Down** to move, **Space** to check or uncheck a model, and **Enter** to confirm. All three models are checked initially. The installer verifies the Python runtime and downloads the files for the selected models. The console displays **Installation complete** or **Installation failed** and waits for a key.
 
@@ -23,7 +23,7 @@ Use the Blender add-on and Windows companion from the same release. If the match
    - In the same approved account, open [Access Tokens](https://huggingface.co/settings/tokens). Choose **New token**, select **Read**, name the token, and copy it.
    - Paste the token into the hidden installer prompt. The installer uses it for the model download and does not save it. Press Enter at an empty prompt to cancel.
 4. In Blender, open **Edit > Preferences > Add-ons**. Choose **Install from Disk** from the top-right menu, select the Blender add-on ZIP, and enable **toyxyz_motion_ai_tool** if required.
-5. In the 3D View, press **N**, open **Motion AI**, and click **Start**. Blender uses the companion registered by `install.cmd`. Set **External App Folder** in the add-on preferences for a manually moved or alternate installation.
+5. In the 3D View, press **N**, open **Motion AI**, and click **Start**. With **External App Folder** blank, Blender uses the companion registered by `install.cmd`. Set the field for a manually moved or alternate installation. Clear a saved path to return to automatic detection.
 6. Add a SOMA actor and open the Motion Timeline. Choose an installed model for the active block. When the panel shows **Model files ready**, click **Generate Motion**. For missing files, use the installation command shown in the sidebar.
 
 ## Install specific models or encoder profiles
@@ -60,7 +60,7 @@ See the [Blender workflow](BLENDER_ADDON.md), [constraint controls](KEYFRAME_CON
 
 ## Update and troubleshoot
 
-- Close Blender and stop the companion before replacing their files. For a companion ZIP installation, extract the next release to a separate folder and point Blender at that folder after installing the matching add-on ZIP. You can copy a compatible `python_embeded` folder and the existing `models` folder into the new companion folder before running `install.cmd`. The installer verifies and reuses matching files. For a Git checkout, run `update.cmd`.
+- Close Blender before updating the add-on. To update the companion, stop it, extract the new ZIP to a separate folder, and run its `install.cmd`. You can copy a compatible `python_embeded` folder and the existing `models` folder into the new companion folder first. The installer verifies and reuses matching files. Clear any saved **External App Folder** override to use the newly registered installation, or point it to the new folder. For a Git checkout, run `update.cmd`.
 - If the companion cannot start, check **External App Folder**, run `install.cmd -Verify`, and inspect `logs/toyxyz_motion_ai_tool_app.log`. `check.cmd` runs engine import and CUDA checks.
 - If model setup fails with an access error, verify your Hugging Face account's model access and retry with a read token.
 - If a runtime volume is reported corrupt, replace the named volume or partial download and retry. If GPU memory is tight, prepare a smaller encoder profile and select it in Blender.

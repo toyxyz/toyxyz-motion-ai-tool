@@ -1,5 +1,5 @@
 bl_info={
-    'name':'toyxyz_motion_ai_tool','author':'toyxyz','version':(0,46,4),'blender':(5,2,0),
+    'name':'toyxyz_motion_ai_tool','author':'toyxyz','version':(0,46,5),'blender':(5,2,0),
     'location':'Motion Timeline / 3D View > Sidebar > Motion AI',
     'description':'External motion generation with native NLA tracks and user pose keys',
     'category':'Animation',
@@ -27,27 +27,25 @@ MODEL_ITEMS=(
 )
 
 def runtime_default():
-    config=Path(__file__).with_name('app_location.json')
-    if config.exists():
-        try:return json.loads(config.read_text(encoding='utf-8'))['root']
-        except Exception:pass
-    candidate=Path(__file__).resolve().parents[2]
-    if (candidate/'runtime/entry.py').is_file():return str(candidate)
     marker=Path(os.environ.get('LOCALAPPDATA') or Path.home()/'AppData/Local')/'Toyxyz/MotionAI/companion.json'
-    try:
-        root=Path(json.loads(marker.read_text(encoding='utf-8'))['root'])
-        if (root/'runtime/entry.py').is_file() and (root/'python_embeded/python.exe').is_file():return str(root)
-    except (OSError,ValueError,KeyError,TypeError):pass
-    return ''
+    for config in (marker,Path(__file__).with_name('app_location.json')):
+        try:
+            root=Path(json.loads(config.read_text(encoding='utf-8'))['root'])
+            if (root/'runtime/entry.py').is_file() and (root/'python_embeded/python.exe').is_file():return str(root)
+        except (OSError,ValueError,KeyError,TypeError):pass
+    candidate=Path(__file__).resolve().parents[2]
+    return str(candidate) if (candidate/'runtime/entry.py').is_file() else ''
 
 
 class TOYXYZ_Preferences(bpy.types.AddonPreferences):
     bl_idname=__package__
-    runtime_root:StringProperty(name='External App Folder',description='Folder containing the companion app and its portable Python',subtype='DIR_PATH',default=runtime_default())
+    runtime_root:StringProperty(name='External App Folder',
+        description='Optional companion folder. Leave blank to find the installed companion automatically',
+        subtype='DIR_PATH',default='')
     port:IntProperty(name='Port',description='Local port used to connect to the companion app',default=8790,min=1024,max=65535)
     def draw(self,context):
         self.layout.prop(self,'runtime_root');self.layout.prop(self,'port')
-        self.layout.label(text='AI packages run in the external app, using its bundled python_embeded folder.')
+        self.layout.label(text='Leave External App Folder blank for automatic detection.')
 
 
 def block_model_changed(self,context):
