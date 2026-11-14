@@ -35,7 +35,7 @@ Python and required packages travel together as one `python_embeded` folder. Lar
 
 ## End-user installation
 
-Extract **`MotionAI_Windows_Companion-0.46.2.zip`** from the matching GitHub release. It contains the Blender companion application, installer, engine code and required assets for the Blender workflow. The GitHub source archive also contains upstream demos and developer tooling.
+Extract **`MotionAI_Windows_Companion-0.46.3.zip`** from the matching GitHub release. It contains the Blender companion application, installer, engine code and required assets for the Blender workflow. The GitHub source archive also contains upstream demos and developer tooling.
 
 1. Run `install.cmd`. New installations default to NF4. Select another profile with `-Precision bf16`, `-Precision int8`, or `-Precision all`.
 2. A matching `python_embeded` folder is reused. Its first adoption verifies all immutable runtime files.

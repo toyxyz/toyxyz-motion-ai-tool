@@ -13,15 +13,11 @@ The companion uses its bundled CPython 3.12 environment and CUDA libraries. You 
 
 If the matching Windows companion is already installed, install only the Blender add-on ZIP and keep **External App Folder** pointed at that companion.
 
-1. From the [release page](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.2), download **`MotionAI_Windows_Companion-0.46.2.zip`** and **`toyxyz_motion_ai_tool-0.46.2-blender-addon.zip`**.
+1. From the [release page](https://github.com/toyxyz/toyxyz-motion-ai-tool/releases/tag/v0.46.3), download **`MotionAI_Windows_Companion-0.46.3.zip`** and **`toyxyz_motion_ai_tool-0.46.3-blender-addon.zip`**.
 2. Extract the companion ZIP to a writable folder such as `D:\MotionAI`. Use the folder that contains `install.cmd` and `runtime`. Keep the folder path free of semicolon characters. GitHub's automatically generated **Source code (zip)** is optional.
-3. Open Command Prompt in that folder and run:
+3. Double-click `install.cmd`. The installer downloads and verifies both runtime volumes, extracts Python, and downloads the pinned NF4 models. The console displays **Installation complete** or **Installation failed** and waits for a key. For scripted installs, use `install.cmd -NoPause` to exit immediately with the installer status code.
 
-   ```bat
-   install.cmd
-   ```
-
-   The installer downloads and verifies both runtime volumes, extracts Python, and downloads the pinned NF4 models. The default NF4 encoder is publicly downloadable. If you choose BF16, use a read token from an account with access to [Meta Llama 3 8B Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) at the hidden prompt.
+   The default NF4 encoder is publicly downloadable. If you choose BF16, use a read token from an account with access to [Meta Llama 3 8B Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) at the hidden prompt.
 4. In Blender, open **Edit > Preferences > Add-ons**. Choose **Install from Disk** from the top-right menu, select the Blender add-on ZIP, and enable **toyxyz_motion_ai_tool** if required.
 5. In the 3D View, press **N**, open **Motion AI**, and click **Start**. Blender uses the companion registered by `install.cmd`. Set **External App Folder** in the add-on preferences for a manually moved or alternate installation.
 6. When the panel shows **Model files ready**, add a SOMA actor and open the Motion Timeline. Select a prompt block, then click **Generate Motion**. For missing files, use the installation command shown in the sidebar.

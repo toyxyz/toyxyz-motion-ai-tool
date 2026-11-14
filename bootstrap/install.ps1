@@ -1,6 +1,8 @@
 ﻿param(
     [switch]$RuntimeOnly,
     [switch]$Verify,
+    [switch]$PauseOnExit,
+    [switch]$NoPause,
     [ValidateSet('bf16','int8','nf4','all')][string]$Precision = '',
     [string]$RuntimeBaseUrl = '',
     [string]$DownloadDirectory = ''
@@ -11,7 +13,6 @@ $Root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')).TrimEnd('\')
 $Work = Join-Path $Root '.install'
 $EnvironmentPath = Join-Path $Root 'python_embeded'
 $LockPath = Join-Path $Root 'manifests\runtime.lock.json'
-$Lock = Get-Content -LiteralPath $LockPath -Raw -Encoding UTF8 | ConvertFrom-Json
 $Utf8 = New-Object Text.UTF8Encoding($false)
 [Console]::OutputEncoding = $Utf8
 
@@ -93,7 +94,9 @@ function Get-Volume([object]$Part, [string]$Directory, [string]$BaseUrl) {
 }
 
 $Guard = $null; $Client = $null
+$Succeeded = $false
 try {
+    $Lock = Get-Content -LiteralPath $LockPath -Raw -Encoding UTF8 | ConvertFrom-Json
     if ($Root.Contains(';')) { throw 'Installation paths cannot contain semicolons (;).' }
     if (-not $RuntimeOnly -and -not $Verify) {
         $Adapter = Get-Command nvidia-smi.exe -ErrorAction SilentlyContinue
@@ -186,10 +189,25 @@ try {
         & (Join-Path $EnvironmentPath 'python.exe') @Arguments
         if ($LASTEXITCODE -ne 0) { throw 'Model preparation failed.' }
     }
+    $Succeeded = $true
     exit 0
 } catch {
     [Console]::Error.WriteLine($_.Exception.Message)
     exit 1
 } finally {
     if ($Client) { $Client.Dispose() }; if ($Guard) { $Guard.Dispose() }
+    if ($PauseOnExit) {
+        Write-Host ''
+        if (-not $Succeeded) {
+            Write-Host 'Installation failed. Review the error above, then run install.cmd again.' -ForegroundColor Red
+        } elseif ($RuntimeOnly) {
+            Write-Host 'Python runtime is ready.' -ForegroundColor Green
+        } else {
+            Write-Host 'Installation complete. Open Blender and click Start in the Motion AI panel.' -ForegroundColor Green
+        }
+        if (-not $NoPause -and -not [Console]::IsInputRedirected -and -not [Console]::IsOutputRedirected) {
+            Write-Host 'Press any key to close this window or return to the command prompt.'
+            try { $null = [Console]::ReadKey($true) } catch [InvalidOperationException] { }
+        }
+    }
 }

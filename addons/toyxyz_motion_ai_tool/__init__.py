@@ -1,5 +1,5 @@
 bl_info={
-    'name':'toyxyz_motion_ai_tool','author':'toyxyz','version':(0,46,2),'blender':(5,2,0),
+    'name':'toyxyz_motion_ai_tool','author':'toyxyz','version':(0,46,3),'blender':(5,2,0),
     'location':'Motion Timeline / 3D View > Sidebar > Motion AI',
     'description':'External motion generation with native NLA tracks and user pose keys',
     'category':'Animation',
